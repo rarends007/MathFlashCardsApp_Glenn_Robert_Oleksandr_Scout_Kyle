@@ -1,0 +1,18 @@
+*explanation* -> This is me not giving a step, but just explaining.
+
+MySQL -u root -p *press enter*
+*put in your password at the prompt*
+
+CREATE USER 'capstone_user'@'localhost' IDENTIFIED BY 'Password_Capstone_1475$';
+
+GRANT ALL PRIVILEGES ON *.* TO 'capstone_user'@'localhost';
+
+FLUSH PRIVILEGES; *ensure the privs take effect instantly*
+
+EXIT;
+
+*Now -> 
+    ->  you need to go into workbench and add this user there.
+    ->  run the mathapp db creation script
+    ->  *The implemented jdbc driver and connection pool should work on you build of the 
+		project now.*
