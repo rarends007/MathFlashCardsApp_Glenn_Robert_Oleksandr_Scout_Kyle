@@ -14,3 +14,5 @@
               removeAbandoned="true"
               removeAbandonedTimeout="90" />
 </Context>
+
+<!-- must have mysql-connector-j-9.6.0.jar in the apache tomcat server lib folder--> 
