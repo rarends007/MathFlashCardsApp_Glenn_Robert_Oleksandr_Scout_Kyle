@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle">
-    <Resource name="jdbc/scc" auth="container"
-        driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/murach?autoReconnect=true" 
-        username="capstone_user" password="Password_Capstone_1475$"
-        maxActive="100" maxIdel="60" maxWait="10000"
-        logAbandoned="true" removeAbandoned="true"
-        removeAbandonedTimeout="90" type="java.sql.Datasource"
-    />
-    
+    <Resource name="jdbc/math_app" 
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/math_app?autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
+              username="capstone_user"
+              password="Password_Capstone_1475$"
+              maxTotal="100"
+              maxIdle="60"
+              maxWaitMillis="10000"
+              logAbandoned="true"
+              removeAbandoned="true"
+              removeAbandonedTimeout="90" />
 </Context>
