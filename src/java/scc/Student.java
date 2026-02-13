@@ -4,14 +4,13 @@
  */
 package scc;
 
-import abstract_classes.user;
 import java.io.Serializable;
 
 /**
  *
  * @author raren
  */
-public final class Student extends user implements Serializable {
+public final class Student extends User implements Serializable {
     
     private int level;
     private double grade;

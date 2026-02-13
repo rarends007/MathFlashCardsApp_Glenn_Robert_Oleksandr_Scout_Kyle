@@ -6,14 +6,16 @@ package data;
 import java.sql.*;
 
 import scc.Admin;
+import scc.User;
 
 /**
  *
  * @author raren
  */
-public class AdminDB {
+public class UserDB {
     
-    public static int insertAdmin(Admin admin){
+    // Registration db Functions start 
+    public static int insertUser(User user){ //Accepts any User type - Student, Parent, Teacher, or Admin
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -25,12 +27,12 @@ public class AdminDB {
                 "(?,?,?,?,?,?);";
         try{
             ps = connection.prepareStatement(sql);
-            ps.setString(1, admin.getUsername());
-            ps.setString(2, admin.getPassword());
-            ps.setString(3, admin.getFirstName());
-            ps.setString(4, admin.getMiddleName());
-            ps.setString(5, admin.getLastName());
-            ps.setString(6, "ADM" );
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getFirstName());
+            ps.setString(4, user.getMiddleName());
+            ps.setString(5, user.getLastName());
+            ps.setString(6, user.getRole() );
             return ps.executeUpdate();
             
         }catch (SQLException ex){
@@ -42,6 +44,7 @@ public class AdminDB {
         }
         
     }
+    
     
     public static boolean usernameExists(String username){
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -68,5 +71,7 @@ public class AdminDB {
         }
         
     }
+    
+    // Registration db Functions start
     
 }

@@ -4,7 +4,6 @@
  */
 package scc;
 
-import abstract_classes.user;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author raren
  */
-public final class Teacher extends user implements Serializable {
+public final class Teacher extends User implements Serializable {
     private ArrayList<String> classes ;
     private ArrayList<String> students;
     

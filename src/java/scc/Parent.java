@@ -4,7 +4,6 @@
  */
 package scc;
 
-import abstract_classes.user;
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author raren
  */
-public final class Parent extends user implements Serializable{
+public final class Parent extends User implements Serializable{
     private ArrayList<String> children;
     
     public Parent(){
