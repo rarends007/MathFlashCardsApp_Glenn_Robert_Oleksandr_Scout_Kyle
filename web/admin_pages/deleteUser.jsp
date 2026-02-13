@@ -20,7 +20,7 @@
         <div>
             <h3>${message}</h3>
         </div>
-        <form action="/Admin" method="post">
+        <form action="<c:url value="/Admin"/>" method="post">
             <input type="hidden" name="action" value="delete"/><!-- the action passed to the servlet -->
             
             <label>username</label>

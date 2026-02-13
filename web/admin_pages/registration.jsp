@@ -19,7 +19,7 @@
         
         <p><i>${message}</i></p> <!--  this will be implemented later, error message that helps with user validation -->
         
-        <form action="/Admin" method="post">
+        <form action="<c:url value="/Admin"/>" method="post">
             <input type="hidden" name="action" value="register"/><!-- the action passed to the servlet -->
             
             <label>username</label>
