@@ -38,7 +38,7 @@ public class Validation {
            message.add("A username cannot be greater than 10 characters in length.");
        }
        
-       if (!UserDB.usernameExists(username)) {
+       if (UserDB.usernameExists(username)) {
           isValid = false;
           message.add("This username already exists. Choose a different one.") ;
        }    

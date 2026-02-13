@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package data;
+
 import java.sql.*;
 
-import scc.Admin;
+import java.security.NoSuchAlgorithmException;
+
 import scc.User;
+import util.PasswordUtil;
+
 
 /**
  *
@@ -28,13 +32,19 @@ public class UserDB {
         try{
             ps = connection.prepareStatement(sql);
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            try{
+            String hashedPassword = PasswordUtil.hashAndSaltPassword(user.getPassword()); //I don't want anything entered if the password doesn't hash right.
+            
+            ps.setString(2, hashedPassword);
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getMiddleName());
             ps.setString(5, user.getLastName());
             ps.setString(6, user.getRole() );
             return ps.executeUpdate();
-            
+           }catch (NoSuchAlgorithmException ex){
+               System.out.println("Failure hashing password.");
+               return 0;
+           }
         }catch (SQLException ex){
             System.out.println("SQLException in registerAdmin: " + ex);
             return 0;
@@ -53,8 +63,8 @@ public class UserDB {
         ResultSet rs = null;
         
         String sql = "SELECT username"
-                + "FROM user"
-                + "WHERE username = ?";
+                + " FROM user"
+                + " WHERE username = ?";
         
         try{
             ps = connection.prepareStatement(sql);
@@ -71,6 +81,8 @@ public class UserDB {
         }
         
     }
+    
+    
     
     // Registration db Functions start
     
