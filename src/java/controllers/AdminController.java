@@ -42,112 +42,142 @@ public class AdminController extends HttpServlet {
         
         HttpSession session = request.getSession();
         
-        ArrayList<String> message = new ArrayList<String>();
+        Admin loggedInAdmin = (Admin) session.getAttribute("admin");
+        
+        System.out.println("admin props -> admin controller -> admin session obj -> " + loggedInAdmin.getRole() + " " + loggedInAdmin.getUsername());
+        ArrayList<String> message = new ArrayList<>();
        
+       
+        
         //get the user actions
         String action = request.getParameter("action");
         
-        switch(action){ //All of these insert into the user table, users differentiated by role
-            case "register": 
-                //get the data from the jsp
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
-                String firstname = request.getParameter("firstname");
-                String middlename = request.getParameter("middlename");
-                String lastname = request.getParameter("lastname");
-                String confpassword = request.getParameter("confpassword");
-                String role = request.getParameter("role");
-                
-                if(Validation.userValidated(username, password, confpassword, firstname, middlename, lastname, message)){
-                    switch(role){
-                        case "ADM":
+        if(loggedInAdmin.getRole().equals("ADM")){
+            
+    
+            switch(action){ //All of these insert into the user table, users differentiated by role
+                case "register": 
+                    //get the data from the jsp
+                    String username = request.getParameter("username");
+                    String password = request.getParameter("password");
+                    String firstname = request.getParameter("firstname");
+                    String middlename = request.getParameter("middlename");
+                    String lastname = request.getParameter("lastname");
+                    String confpassword = request.getParameter("confpassword");
+                    String role = request.getParameter("role");
 
-                    Admin admin  = new Admin();
+                    if(Validation.userValidated(username, password, confpassword, firstname, middlename, lastname, message)){
+                        switch(role){
+                            case "ADM":
 
-                    admin.setUsername(username);
-                    admin.setPassword(password);
-                    admin.setFirstname(firstname);
-                    admin.setMiddlename(middlename);
-                    admin.setLastname(lastname);
-                    admin.setRole(role);
+                        Admin admin  = new Admin();
 
-                    message.clear();
-                    message.add("Dear administrator, thank you for registering a new administrator, username: " + admin.getUsername() );
-                    UserDB.insertUser(admin);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        admin.setFirstname(firstname);
+                        admin.setMiddlename(middlename);
+                        admin.setLastname(lastname);
+                        admin.setRole(role);
 
-                    request.setAttribute("user", admin);
-                    request.setAttribute("message", message);
+                        message.clear();
+                        message.add("Dear administrator, thank you for registering a new administrator, username: " + admin.getUsername() );
+                        UserDB.insertUser(admin);
+
+                        request.setAttribute("user", admin);
+                        request.setAttribute("message", message);
 
 
-                    break;
-                case "PAR":
+                        break;
+                    case "PAR":
 
-                    Parent parent  = new Parent();
+                        Parent parent  = new Parent();
 
-                    parent.setUsername(username);
-                    parent.setPassword(password);
-                    parent.setFirstname(firstname);
-                    parent.setMiddlename(middlename);
-                    parent.setLastname(lastname);
-                    parent.setRole(role);
+                        parent.setUsername(username);
+                        parent.setPassword(password);
+                        parent.setFirstname(firstname);
+                        parent.setMiddlename(middlename);
+                        parent.setLastname(lastname);
+                        parent.setRole(role);
 
-                    message.clear();
-                    message.add("Dear administrator, thank you for registering a new parent, username: " + parent.getUsername() );
-                    UserDB.insertUser(parent);
+                        message.clear();
+                        message.add("Dear administrator, thank you for registering a new parent, username: " + parent.getUsername() );
+                        UserDB.insertUser(parent);
 
-                    request.setAttribute("user", parent);
-                    request.setAttribute("message", message);
+                        request.setAttribute("user", parent);
+                        request.setAttribute("message", message);
 
-                    break;
-                case "TCH":
+                        break;
+                    case "TCH":
 
-                    Teacher teacher  = new Teacher();
+                        Teacher teacher  = new Teacher();
 
-                    teacher.setUsername(username);
-                    teacher.setPassword(password);
-                    teacher.setFirstname(firstname);
-                    teacher.setMiddlename(middlename);
-                    teacher.setLastname(lastname);
-                    teacher.setRole(role);
+                        teacher.setUsername(username);
+                        teacher.setPassword(password);
+                        teacher.setFirstname(firstname);
+                        teacher.setMiddlename(middlename);
+                        teacher.setLastname(lastname);
+                        teacher.setRole(role);
 
-                    message.clear();
-                    message.add("Dear administrator, thank you for registering a new teacher, username: " + teacher.getUsername() );
-                    UserDB.insertUser(teacher);
+                        message.clear();
+                        message.add("Dear administrator, thank you for registering a new teacher, username: " + teacher.getUsername() );
+                        UserDB.insertUser(teacher);
 
-                    request.setAttribute("user", teacher);
-                    request.setAttribute("message", message);
+                        request.setAttribute("user", teacher);
+                        request.setAttribute("message", message);
 
-                    break;
-                case "STU": 
+                        break;
+                    case "STU": 
 
-                    Student student  = new Student();
+                        Student student  = new Student();
 
-                    student.setUsername(username);
-                    student.setPassword(password);
-                    student.setFirstname(firstname);
-                    student.setMiddlename(middlename);
-                    student.setLastname(lastname);
-                    student.setRole(role);
+                        student.setUsername(username);
+                        student.setPassword(password);
+                        student.setFirstname(firstname);
+                        student.setMiddlename(middlename);
+                        student.setLastname(lastname);
+                        student.setRole(role);
 
-                    message.clear();
-                    message.add("Dear administrator, thank you for registering a new student, username: " + student.getUsername() );
-                    UserDB.insertUser(student);
+                        message.clear();
+                        message.add("Dear administrator, thank you for registering a new student, username: " + student.getUsername() );
+                        UserDB.insertUser(student);
 
-                    request.setAttribute("user", student);
-                    request.setAttribute("message", message);
+                        request.setAttribute("user", student);
+                        request.setAttribute("message", message);
 
-                    break;
-                }//inner switch 1
-                
-            }// User Validation block end -> Validation.userValidated
-       url = "/registration.jsp";
-       request.setAttribute("message", message);
-       break;
-       case "remove":  
-           //TODO - Add logic to allow an admin to delete a user from the database
+                        break;
+                    }//inner switch 1
+
+                }// User Validation block end -> Validation.userValidated
+           url = "/admin_pages/registration.jsp";
+           request.setAttribute("message", message);
            break;
-           
-        }//outer switch
+           case "delete":  
+               url = "/admin_pages/deleteUser.jsp";
+               String usernameToDelete = request.getParameter("username");
+               if(UserDB.usernameExists(usernameToDelete)){
+                   try{
+                            UserDB.deleteUser(usernameToDelete);
+                            message.clear();
+                            message.add("Username " + usernameToDelete + " deleted.");
+                    }catch (Exception ex){
+                            message.clear();
+                            message.add("Unable to remove user data.");
+                     }
+               }else{
+                   message.clear();
+                   message.add("Username does not exist.");
+               }
+
+               if(message.size() > 0){
+                   request.setAttribute("message", message);
+               }
+               break;
+
+            }//outer switch
+        
+        }else{
+            url = "/index.jsp";
+        }
            getServletContext()
                    .getRequestDispatcher(url)
                    .forward(request, response);

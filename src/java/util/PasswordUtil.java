@@ -48,6 +48,7 @@ public class PasswordUtil {
         String salt = getSalt();
         String hashedPass =  hashPassword(password + salt);
         
-        return hashedPass + "*||SH||*" + salt;
+       
+        return hashedPass + "----Delim----" + salt;
     }
 }
