@@ -1,0 +1,341 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 15, 2026, 3:19:30 PM
+    Author     : mrjel
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100..900&display=swap');
+
+* {
+    --dark: #1E232C;
+    --accent: #35C2C1;
+    --gray: #E8ECF4;
+    --dark-gray: #8391A1;
+    --border: #E8ECF4;
+    --secondary: #F2B705;
+
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Urbanist', Arial, sans-serif;
+    font-size: 20px;
+}
+
+body {
+    position: absolute;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 64px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 36px;
+}
+
+.text_centered {
+    text-align: center;
+}
+
+.text_centered::after {
+    margin: 30px auto 0 auto;
+}
+
+h2::after {
+    margin-top: 30px;
+    content: '';
+    display: block;
+    width: 200px;
+    height: 4px;
+    background-color: var(--dark);
+}
+
+button,
+input {
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+}
+
+button:hover,
+input[type="submit"] {
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--dark);
+
+}
+
+.btn-secondary {
+    background-color: var(--accent);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--dark);
+    color: var(--dark);
+}
+
+.fake_link {
+    color: var(--accent);
+    font-size: inherit;
+}
+
+.fake_link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+}
+
+section {
+    margin-top: 30px;
+}
+
+
+section p,
+section h2,
+section h3,
+section h4 {
+    margin-top: 30px;
+}
+
+header {
+    width: 100%;
+}
+
+.wrapper {
+    width: 1200px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+nav {
+    background-color: var(--dark);
+    width: 100%;
+    color: white;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+nav>.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: inline-block;
+    margin-right: 20%;
+    padding: 0;
+}
+
+nav li {
+    padding-right: 30px;
+    display: inline;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+.sidenav {
+    background: none;
+    color: var(--dark);
+    width: 300px;
+    height: auto;
+    margin-top: 60px;
+}
+
+.sidenav ul {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sidenav li {
+    padding: 10px;
+    border-top: 1px solid var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.sidenav .current {
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.sidenav .current::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 30px;
+    background-color: var(--secondary);
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    background-color: gray;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.sing_in_container {
+    display: flex;
+    gap: 10px;
+}
+
+.sing_in_container span {
+    color: var(--accent);
+}
+
+.sing_in_container a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sing_in_container a:hover {
+    text-decoration: underline;
+    color: white;
+
+}
+
+.hero {
+    height: 492px;
+    width: 100%;
+    background-color: var(--accent);
+    display: flex;
+    color: white;
+}
+
+.hero_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+    padding: 30px 20px 30px 0;
+    height: 100%;
+}
+
+.hero_content>button {
+    width: 165px;
+}
+
+.hero_img {
+    position: absolute;
+    width: 50%;
+    height: 492px;
+    background: url(../images/Student.png) no-repeat;
+    background-size: cover;
+    right: 0;
+    top: 75px;
+}
+
+.hero_dashboard {
+    height: 350px;
+    background: linear-gradient(90deg, #35C2C1, #35c2c200);
+}
+
+.hero_dashboard .hero_content {
+    height: 492px;
+    height: 350px;
+    width: 100%;
+    display: flex;
+    color: white;
+    justify-content: center;
+}
+
+.hero_img.teacher {
+    background: url(../images/teacher.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero_dashboard .hero_img {
+    height: 350px;
+    width: 100%;
+    left: 0;
+    z-index: -1;
+}
+
+
+.modular_menu {
+    display: none;
+    width: 300px;
+    height: 550px;
+    box-shadow: 0 0 40px 1000px #000000d5;
+    position: fixed;
+    top: 25dvh;
+    right: 45%;
+    background-color: white;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 50px 15px;
+    background: linear-gradient(#35C2C1, #fff 70%);
+}
+
+.modular_menu>h1 {
+    color: white;
+    padding: 50px 0;
+    height: 50%;
+}
+
+.modular_menu>p,
+.modular_menu>p a {
+    text-align: center;
+    font-size: 12px;
+}
+
+.modular_menu input:not(input[type='submit']),
+.modular_menu select {
+    width: 100%;
+    margin-bottom: 10px;
+    height: 40px;
+    color: var(--dark);
+    border: 1px solid var(--border);
+}
+
+.modular_menu>p a {
+    color: var(--accent);
+}
+
+.btn_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}

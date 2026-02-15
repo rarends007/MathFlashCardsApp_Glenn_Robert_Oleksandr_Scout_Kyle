@@ -5,33 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
+        <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
-          <div>
+        <div>
             <h3>${message}</h3>
         </div>
-        <div>
-            <h1>Hello and welcome to the SCC Math_app.</h1><br>
-            <h2>Please enter your username and password below to login.</h2>
-        </div>
-        <form action="Public" method="post">
-            
-            <input type="hidden" name="action" value="login"/>
-            <label>username</label>
-            <input text name="username" id="username"/>
-            <br>
-            <label>password</label>
-            <input type="text" name="password" id="password"/>
-            
-            <input type="submit" value="Login"/>
-
-            
-        </form>
-        
-    </body>
-</html>
+        <form action="Public" class="log_in_form modular_menu" id="login_form" method="post">
+            <h3>Welcome back! Glad to see you, Again!</h2>
+                <input type="hidden" name="action" value="login"/>
+                <div>
+                    <input type="text" placeholder="Enter your username" name="username" id="username">
+                    <input type="password" placeholder="Enter your password" name="password" id="password">
+                </div>
+                <input type="submit" value="Login" class="btn-primary">
+                </form>
+                </body>
+                </html>
