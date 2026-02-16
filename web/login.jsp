@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-    <head>
+    <head> <!-- TODO: I need to debug why entering a nonexistent user leads to a blank page and correct it. -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
         <link rel="stylesheet" href="./styles/style.css">
@@ -25,6 +25,7 @@
                     <input type="password" placeholder="Enter your password" name="password" id="password">
                 </div>
                 <input type="submit" value="Login" class="btn-primary">
+                <input type="button" id="login-btn-cancel" value="Cancel" class="btn-cancel">
                 </form>
                 </body>
                 </html>
