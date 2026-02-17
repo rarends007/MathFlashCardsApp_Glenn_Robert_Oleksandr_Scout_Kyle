@@ -17,4 +17,5 @@
 
 </Context>
 
-<!-- must have mariadb-java-clinet-3.5.7.jar in the apache tomcat server lib folder--> 
+<!-- must have mariadb-java-clinet-3.5.7.jar in the apache tomcat server lib folder ->
+Please feel free to download a copy from our repository, just remove the .gitignore extension--> 
