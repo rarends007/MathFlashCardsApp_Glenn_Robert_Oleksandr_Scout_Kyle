@@ -15,24 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="wrapper">
-                <ul>
-                    <li><a href="index.jsp">Home</a></li> <!-- likely will want to separate this into a separate .jsp file and use jstl to add it to the top of all pages - RA -->
-                    <li><a href="http://localhost:8080/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/UserPortals/teacherPortal.jsp">For Teachers</a></li>
-                    <li><a href="http://localhost:8080/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/UserPortals/studentPortal.jsp">For Students</a></li>
-                    <li><a href="http://localhost:8080/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/UserPortals/parentPortal.jsp">For Parents</a></li>
-                </ul>
-                <div class="sing_in_container">
-                    <a href="">
-                        <span>Sign</span> In
-                    </a>
-                    <div class="avatar">?</div>
-                </div>
-            </div>
-        </nav>
-    </header>
+<c:import url="nav.jsp" />
     <div class="hero">
         <div class="wrapper">
             <div class="hero_content">

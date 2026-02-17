@@ -20,11 +20,7 @@ if (getStarted) {
   
 if(cancelBtn){
     cancelBtn.addEventListener('click', (e) => cancelSignInForm(e));
-    console.log("cancel button clicked");
-}else{
-    console.log("Issue with the cancel button");
 }
-
 
 function signInForm(e) {
     e.preventDefault();
