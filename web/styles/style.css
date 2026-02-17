@@ -355,3 +355,50 @@ nav a:hover {
     flex-direction: column;
     gap: 20px
 }
+.drill_list{
+    padding: 0;
+    margin-top: 20px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+}
+
+.drill_container {
+    background: #E8ECF4;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.drill_container h4 {
+    margin: 0;
+}
+
+.drill_body {
+    margin: 20px 0;
+}
+
+.drill_create_container.modular_menu {
+    display: none;
+    width: 400px;
+    left: 40dvw;
+}
+
+.drill_create_container.modular_menu h2:after{
+    display: none;
+}
+
+.question_container{
+    padding: 0;
+    list-style: none;
+}
+
+.question_container>li{
+    display: flex;
+    gap: 10px;
+}
+
+.question_container>li> input{
+    width: 20px !important;
+    height: 20px !important;
+}

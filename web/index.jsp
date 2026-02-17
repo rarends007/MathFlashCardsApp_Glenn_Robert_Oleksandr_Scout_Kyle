@@ -15,7 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 </head>
 
 <body>
-<c:import url="nav.jsp" />
+    <c:import url="nav.jsp" />
     <div class="hero">
         <div class="wrapper">
             <div class="hero_content">
@@ -36,6 +36,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 and involved in their child’s success.</p>
         </div>
     </section>
-<c:import url="login.jsp" />
-<script src="scripts/script.js"></script>
+    <c:import url="login.jsp" />
+    <script src="scripts/script.js"></script>
 </body>

@@ -6,6 +6,8 @@
 
 const signInBtn = document.querySelector('.sing_in_container>a');
 const getStarted = document.querySelector('#get_started');
+const drillCreateBtn = document.querySelector('#drill_create_btn');
+const drillCreateCloseBtn = document.querySelector('#drill_create_close_btn');
 
 const cancelBtn = document.querySelector('#login-btn-cancel');
 
@@ -20,6 +22,12 @@ if (getStarted) {
   
 if(cancelBtn){
     cancelBtn.addEventListener('click', (e) => cancelSignInForm(e));
+}
+if(drillCreateBtn){
+    drillCreateBtn.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'flex');
+}
+if(drillCreateCloseBtn){
+    drillCreateCloseBtn.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'none');
 }
 
 function signInForm(e) {
@@ -36,9 +44,6 @@ function cancelSignInForm(e) {
     e.preventDefault();
     //reverse changes to the modmenu
     const modMenu = document.querySelectorAll('.modular_menu');
-    modMenu.forEach(elem => {
-        elem.style.display = 'block';
-    });
     // Hide the login form
     const logInForm = document.querySelector('#login_form');
     if (logInForm) {
