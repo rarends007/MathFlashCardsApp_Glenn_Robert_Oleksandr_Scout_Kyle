@@ -25,7 +25,7 @@
                     <input type="password" placeholder="Enter your password" name="password" id="password">
                 </div>
                 <input type="submit" value="Login" class="btn-primary">
-                <input type="button" id="login-btn-cancel" value="Cancel" class="btn-cancel">
+                <input type="button" id="login-btn-cancel" value="Cancel" class="btn-secondary">
                 </form>
                 </body>
                 </html>

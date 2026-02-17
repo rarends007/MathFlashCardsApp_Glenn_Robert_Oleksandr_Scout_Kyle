@@ -72,7 +72,8 @@ h2::after {
 }
 
 button,
-input {
+input[type="submit"],
+input[type="button"]{
     color: white;
     border-radius: 5px;
     padding: 10px 15px;
@@ -80,7 +81,8 @@ input {
 }
 
 button:hover,
-input[type="submit"] {
+input[type="submit"]:hover,
+input[type="button"]:hover{
     cursor: pointer;
 }
 
@@ -91,12 +93,6 @@ input[type="submit"] {
 
 .btn-secondary {
     background-color: var(--accent);
-}
-
-#login-btn-cancel {
-    background-color: #cc0000;
-    color: #fff;
-    font-weight: bold;
 }
 
 .btn-outline {
@@ -292,6 +288,17 @@ nav a:hover {
     background-position: center;
 }
 
+.hero_img.student {
+    background: url(../images/student1.jpeg) no-repeat;
+    background-size: cover;
+}
+
+.hero_img.parent {
+    background: url(../images/parents.jpeg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 .hero_dashboard .hero_img {
     height: 350px;
     width: 100%;
@@ -303,7 +310,7 @@ nav a:hover {
 .modular_menu {
     display: none;
     width: 300px;
-    height: 550px;
+    height: 500px;
     box-shadow: 0 0 40px 1000px #000000d5;
     position: fixed;
     top: 25dvh;
@@ -328,7 +335,7 @@ nav a:hover {
 }
 
 .modular_menu input:not(input[type='submit']),
-.modular_menu select {
+.modular_menu select{
     width: 100%;
     margin-bottom: 10px;
     height: 40px;
@@ -338,6 +345,9 @@ nav a:hover {
 
 .modular_menu>p a {
     color: var(--accent);
+}
+.modular_menu .btn-secondary {
+    color: white !important;
 }
 
 .btn_container {
