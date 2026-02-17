@@ -3,16 +3,17 @@
     <Resource name="jdbc/math_app" 
               auth="Container"
               type="javax.sql.DataSource"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/math_app?autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
-              username="capstone_user"
-              password="Password_Capstone_1475$"
+              driverClassName="org.mariadb.jdbc.Driver"
+              url="jdbc:mariadb://6.tcp.ngrok.io:10381/math_app?autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
+              username="capstone_2026"
+              password="172RAjRy1vTJt8uYcmYk"
               maxTotal="100"
               maxIdle="60"
               maxWaitMillis="10000"
               logAbandoned="true"
               removeAbandoned="true"
-              removeAbandonedTimeout="90" />
+              removeAbandonedTimeout="90"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"    />
 
 </Context>
 
