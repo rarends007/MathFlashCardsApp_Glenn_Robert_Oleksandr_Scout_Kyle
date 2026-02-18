@@ -1,0 +1,287 @@
+use sys;
+
+-- TODO update the EER diagram to ensure it represents the minor changes that were needed
+
+-- create the database
+DROP DATABASE IF EXISTS math_app;
+CREATE DATABASE math_app;
+
+-- select the db
+USE math_app;
+
+-- CREATE tables
+
+-- PK only tables
+CREATE TABLE user
+(
+	username			VARCHAR(20)				PRIMARY KEY 	
+   ,password			VARCHAR(256)			NOT NULL
+   ,salt				VARCHAR(100)
+   ,first_name			VARCHAR(50) 			NOT NULL
+   ,middle_name			VARCHAR(50) 
+   ,last_name			VARCHAR(50) 			NOT NULL
+   ,role				CHAR(3)					NOT NULL
+   ,bananna_stickers    INT 									DEFAULT 0
+   ,points				INT						  				DEFAULT 0
+);
+
+CREATE TABLE class
+(
+	class_id			CHAR(8)					PRIMARY KEY 
+   ,class_name			VARCHAR(100)			NOT NULL
+   ,credits				DECIMAL(3,2)			NOT NULL
+   ,description			VARCHAR(500)		
+);
+
+CREATE TABLE assessment
+(
+	assessment_id	   	INT 					PRIMARY KEY			AUTO_INCREMENT
+   ,rules			   	VARCHAR(500)		    
+   ,type			   	CHAR(1)					NOT NULL      -- possible types are -> options = d, I, q, p
+   ,level			   	INT 					
+   ,points			   	DECIMAL(4,2)			
+   ,allowed_attempts  	INT 		
+   ,allowed_time	   	INT   -- Time is in seconds
+   ,random_or_specific  CHAR(1)
+);
+
+CREATE TABLE qa
+(	
+	qa_id				int						PRIMARY KEY			AUTO_INCREMENT
+   ,question 			VARCHAR(999)			
+   ,answer				VARCHAR(999)			
+   ,points				DECIMAL(5,2)	
+   ,difficulty			INT
+);
+
+-- FK and linking tables
+
+CREATE TABLE parent_student  -- tracks who is the parent of what student 
+(
+    parent_username		VARCHAR(10)
+   ,student_username	        VARCHAR(10)
+   ,CONSTRAINT fk_parent_student_parent_user FOREIGN KEY
+		(parent_username) REFERENCES user (username)
+   ,CONSTRAINT fk_parent_student_student_user FOREIGN KEY
+		(student_username) REFERENCES user (username)
+);
+
+CREATE TABLE user_class -- Tracks what class a student is in or a teacher teaches, which is differentiated by their roles.
+(
+	username			VARCHAR(10)	   		NOT NULL
+   ,class_id			CHAR(8)				NOT NULL
+   ,CONSTRAINT pk_username_class PRIMARY KEY (username, class_id)
+   ,CONSTRAINT fk_user_class_user FOREIGN KEY
+		(username) REFERENCES user(username)
+   ,CONSTRAINT fk_user_class_classid FOREIGN KEY 
+		(class_id) REFERENCES class (class_id)
+);
+
+CREATE TABLE assessment_class -- tracks which class each assessment is for
+(
+	assessment_id		INT 				NOT NULL
+   ,class_id			CHAR(8)				NOT NULL
+   ,CONSTRAINT pk_assessment_class	PRIMARY KEY (assessment_id, class_id)
+   ,CONSTRAINT fk_assessment_class_assessment FOREIGN KEY 
+		(assessment_id) REFERENCES assessment (assessment_id)
+   ,CONSTRAINT fk_assessment_class_class FOREIGN KEY
+		(class_id) REFERENCES class (class_id)
+);
+
+
+CREATE TABLE qa_assessment
+(
+	assessment_id		INT  				NOT NULL
+   ,qa_id				INT 				NOT NULL
+   ,CONSTRAINT pk_qa_assessment PRIMARY KEY (assessment_id, qa_id)
+   ,CONSTRAINT fk_qa_assessment_assessment FOREIGN KEY
+		(assessment_id) REFERENCES assessment (assessment_id)
+   ,CONSTRAINT fk_qa_assessment_qa FOREIGN KEY
+		(qa_id) REFERENCES qa (qa_id)
+);
+
+CREATE TABLE student_assessment 								
+(
+	student_username   	VARCHAR(10)			NOT NULL
+   ,assessment_id		INT 				NOT NULL
+   ,grade DECIMAL(5,2)
+   ,time_taken			INT    -- measured in seconds
+   ,date 				DATETIME
+   ,difficulty			INT 	
+   ,CONSTRAINT pk_student_assessment PRIMARY KEY(student_username, assessment_id)
+   ,CONSTRAINT fk_student_assessment_student FOREIGN KEY 
+		(student_username) REFERENCES user (username)
+   ,CONSTRAINT fk_student_assessment_assessment FOREIGN KEY
+		(assessment_id) REFERENCES assessment (assessment_id)
+
+);
+
+CREATE TABLE messages
+(
+	message_id			INT 				PRIMARY KEY				AUTO_INCREMENT
+   ,message_text 		VARCHAR(1000)	 	NOT NULL 		DEFAULT ""
+   ,sender_username		VARCHAR(10)			NOT NULL
+   ,reciever_username	VARCHAR(10)			NOT NULL
+   ,date				DATETIME			NOT NULL
+   ,CONSTRAINT fk_messages_user_sender FOREIGN KEY
+		(sender_username) REFERENCES user (username)
+   ,CONSTRAINT fk_messages_user_reciever FOREIGN KEY
+		(reciever_username) REFERENCES user (username)
+);
+
+
+-- sample data inserts
+
+-- =====================================================================
+-- users
+-- =====================================================================
+INSERT INTO user (username, password, salt, first_name, middle_name, last_name, role, bananna_stickers, points) VALUES
+('teacher1',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Scout',     'E',           'Earnst',      'TCH',  0,   0),  -- hashed passwords are "test"
+('teacher2',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'James',     'Theodore',      'Wilson',    'TCH',  0,   0),
+('teacher3',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Oleksandr',   NULL,        'Khokhulia',  'TCH',  0,   0),
+('teacher4',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Kyle',       'E',           'Stuart',     'TCH',  0,   150),
+('studenta',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Snow',      NULL,           'Arends',     'STU', 20,  2450),
+('studentb',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Leon',      'Teran',        'Arends',      'STU',  0,  1870),
+('studentc',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Sophia',    NULL,          'Jacobs',       'STU', 50,  3980),
+('ADMIN001',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Glenn',    NULL,           'Ray',         'ADM',  0,   920),
+('parent01',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Robert',  'Charles',      'Arends',       'PAR',  0,     0),
+('parent02',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Xue',      NULL,          'Arends',       'PAR',  0,     0);
+
+-- =====================================================================
+-- parent_student relationships
+-- =====================================================================
+INSERT INTO parent_student (parent_username, student_username) VALUES
+('parent01', 'studenta'),
+('parent02', 'studentb');
+
+-- =====================================================================
+-- classes
+-- =====================================================================
+INSERT INTO class (class_id, class_name, credits, description) VALUES
+('ALGE1000',   'Algebra I',              		 1.00, 'Introduction to linear equations, inequalities, functions and graphing.'),
+('GEO202',   'Geometry',               			 1.00, 'Points, lines, angles, triangles, circles, proofs and congruence.'),
+('ALG2H',    'Algebra II',       				1.00, 'Advanced functions, logarithms, polynomials, sequences, conic sections.'),
+('PRECAL',   'Precalculus',             		1.00, 'Trigonometry, complex numbers, vectors, matrices, limits.'),
+('STAT101',  'Introduction to Statistics',		0.50, 'Data analysis, probability, distributions, hypothesis testing.');
+
+-- =====================================================================
+-- user_class (teachers and student enrollments)
+-- =====================================================================
+INSERT INTO user_class (username, class_id) VALUES
+-- Teachers
+('teacher1', 'ALGE1000'),
+('teacher1', 'GEO202'),
+('teacher1', 'STAT101'),
+('teacher2', 'ALG2H'),
+('teacher2', 'PRECAL'),
+
+-- Students
+('studenta', 'ALGE1000'),
+('studenta', 'GEO202'),
+('studentb', 'ALG2H'),
+('studentb', 'PRECAL'),
+('studentc', 'ALGE1000'),
+('studentc', 'STAT101');
+
+-- =====================================================================
+-- assessments
+-- =====================================================================
+INSERT INTO assessment (assessment_id, rules, type, level, points, allowed_attempts, allowed_time, random_or_specific) VALUES
+(1,  'No calculator for first 5 questions.',   'q',  1,  25.00,  2,  1800, 'S'),
+(2,  'Basic Agebra Test.',     								'p',  2,  40.00,  1,  3600, 'S'),
+(3,  'Multiple choice + short answer. Calculator allowed.',  'q',  1,  30.00,  NULL,  600, 'R'), -- 6 minutes
+(4,  'Diagnostic placement – no grade impact.',               'd',  0,   0.00,  1,  2700, 'R'),
+(5,  'test 1',       										  'p',  3,  50.00,  1,  5400, 'S'),
+(6,  'Quick 10-question check.',                             'q',  1,  15.00,  3,   900, 'R');
+
+-- =====================================================================
+-- assessment_class
+-- =====================================================================
+INSERT INTO assessment_class (assessment_id, class_id) VALUES
+(1, 'ALGE1000'),
+(2, 'ALGE1000'),
+(3, 'ALGE1000'),
+(4, 'ALGE1000'),
+(1, 'GEO202'),    -- reused quiz
+(5, 'GEO202'),
+(6, 'ALG2H'),
+(2, 'PRECAL'),
+(3, 'STAT101');
+
+-- =====================================================================
+-- qa (question-answer pairs)
+-- =====================================================================
+INSERT INTO qa (qa_id, question, answer, points, difficulty) VALUES
+(1, 'Solve for x: 3x + 7 = 28',                       'x = 7',                     2.00, 1),
+(2, 'Factor: x² - 9x + 20',                           '(x-4)(x-5)',                3.00, 2),
+(3, 'What is the slope of y = 2x - 5?',               '2',                         1.50, 1),
+(4, 'Area of circle with radius 5 (use 3.14)',        '78.5',                      2.00, 1),
+(5, 'calculator allowed: sin(30°)=?',                 '0.5',                       2.00, 2),
+(6, 'Mean of {3,7,12,4,9}',                           '7',                         2.50, 1),
+(7, 'f(x) = mx + b is an example of an...',    		'linear equation',             3.00, 2),
+(8, '2 + 5 is?',                      				'7',                    	 4.00, 2);
+
+-- =====================================================================
+-- qa_assessment (linking questions to randomized/diagnostic assessments)
+-- =====================================================================
+INSERT INTO qa_assessment (assessment_id, qa_id) VALUES
+(3, 1), (3, 2), (3, 3), (3, 6),
+(4, 1), (4, 2), (4, 3), (4, 5), -- These are honsestly all random and would take me too much time to think about to not make the sample data random here. Notice: I put them in a grid for easy observation.
+(6, 1), (6, 3), (6, 4), (6, 6);
+
+-- =====================================================================
+-- student_assessment (example grades/results)
+-- =====================================================================
+INSERT INTO student_assessment (student_username, assessment_id, grade, time_taken, date) VALUES
+('studenta', 1,  99.80, 1420, '2025-09-15 14:30:00'),
+('studenta', 2,  95.90, 3150, '2025-09-28 10:15:00'),
+('studenta', 3,  100.00, 1980, '2025-10-03 13:45:00'),
+('studentb', 6,  94.25,  720, '2025-10-10 09:10:00'),
+('studentb', 2,  95.50, 3480, '2025-10-20 11:20:00'),
+('studentc', 1,  70.00, 1650, '2025-09-16 15:00:00'),
+('studentc', 4,  NULL,  2450, '2025-09-10 09:45:00');  -- diagnostic, no grade
+
+-- =====================================================================
+-- messages (example communications)
+-- =====================================================================
+INSERT INTO messages (message_id, message_text, sender_username, reciever_username, date) VALUES
+(1, 'Emma, excellent work on the factoring quiz!',           'teacher1', 'studenta',   '2025-10-04 08:12:00'),
+(2, 'Mrs. Gonzalez, may I have an extra day for set 2?',     'studenta', 'teacher1',   '2025-09-27 19:45:00'),
+(3, 'Can Liam retake the quick check tomorrow?',             'parent02',  'teacher2',   '2025-10-10 16:30:00'),
+(4, 'Yes, lunch period tomorrow is fine.',                   'teacher2', 'parent02',    '2025-10-10 17:05:00'),
+(5, 'Sophia is leading the leaderboard — great job!',        'teacher1', 'studentc',   '2025-10-05 10:20:00'),
+(6, 'Hi we have noticed suspicous activity on your account.', 'ADMIN001', 'parent02', '2024-10-16 00:00:00');
+
+
+/*
+
+Test queries
+
+SELECT *
+FROM user AS u JOIN messages as m
+	ON u.username = m.sender_username
+WHERE role = 'STU';
+
+SELECT role, COUNT(*) AS 'total message count'
+FROM user AS u JOIN messages as m
+	ON u.username = m.sender_username
+GROUP BY role;
+
+SELECT role, COUNT(*) AS 'total message count'
+FROM user AS u JOIN messages as m
+	ON u.username = m.sender_username
+GROUP BY role
+HAVING COUNT(*) >= 2;
+
+SELECT username, password
+FROM user
+WHERE username = "teacher1";
+*/
+
+
+/*
+ SELECT *
+FROM user
+WHERE username = "";
+-- maybe I will add a isDeleted col, to track deletes, though it really isn't necessary
+*/
