@@ -7,8 +7,8 @@
               url="jdbc:mariadb://6.tcp.ngrok.io:10381/math_app?autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"
               username="capstone_2026"
               password="172RAjRy1vTJt8uYcmYk"
-              maxTotal="100"
-              maxIdle="60"
+              maxTotal="5"
+              maxIdle="10"
               maxWaitMillis="10000"
               logAbandoned="true"
               removeAbandoned="true"
@@ -19,3 +19,7 @@
 
 <!-- must have mariadb-java-clinet-3.5.7.jar in the apache tomcat server lib folder ->
 Please feel free to download a copy from our repository, just remove the .gitignore extension--> 
+
+<!--Note: all usernames are case-sensititve in windows
+
+    Idle resources set low because my remote db server host ngrok only allows up to 5000 TCP connections a month before they cap me...  -->
