@@ -32,6 +32,7 @@
                         <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/drills.jsp">Drills</a></li>
                         <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/statistics.jsp">Statistics</a></li>
                         <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/students.jsp">Students</a></li>
+                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/addOrRemoveFlashcards.jsp">Add or Remove Flashcards</a></li>
                     </ul>
                 </nav>
             </aside>
