@@ -1,6 +1,6 @@
 <%-- 
-    Document   : studentPortal
-    Created on : Feb 17, 2026, 9:51:17 AM
+    Document   : parentPortal
+    Created on : Feb 17, 2026, 10:35:00 AM
     Author     : mrjel
 --%>
 
@@ -18,8 +18,8 @@
         <div class="hero hero_dashboard">
             <div class="wrapper">
                 <div class="hero_content">
-                    <div class="hero_img student"></div>
-                    <h1>Student Dashboard</h1>
+                    <div class="hero_img parent"></div>
+                    <h1>Parent Dashboard</h1>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <aside>
                     <nav class="sidenav">
                         <ul>
-                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/UserPortals/studentPortal.jsp">Class Overview</a></li>
+                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/parent/index.jsp">Class Overview</a></li>
                             <li><a href="">Tests</a></li>
                             <li><a href="">Drills</a></li>
                             <li><a href="">Statistics</a></li>
