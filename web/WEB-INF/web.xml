@@ -16,7 +16,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Teacher</servlet-name>
-        <url-pattern>/TeacherController</url-pattern>
+        <url-pattern>/Teacher/*</url-pattern>
     </servlet-mapping>
     
     <servlet>

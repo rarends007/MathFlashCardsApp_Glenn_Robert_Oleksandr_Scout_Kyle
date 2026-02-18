@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JSP Page</title>
@@ -37,23 +37,24 @@
                 </nav>
             </aside>
             <section>
-        <h1>Add Flashcard</h1>
+        <h1>Add Flashcard To Pool</h1>
         ${messageAddFlashcard}
-        <form action ="Teacher" method="post">
+        <form action ="<c:url value="/Teacher"/>" method="post">
             <input type="hidden" name="action" value="addNewFlashcard"/>
             
             <label>Question</label>
-            <input type="text" name="question" required/>
+            <input type="text" name="question" required/><br>
             
             <label>Answer</label>
-            <input type="text" name="answer" required/>
+            <input type="text" name="answer" required/><br>
             
             <label>points</label>
-            <input type="text" name="points" required/>
+            <input type="text" name="points" required/><br>
             
            <label>difficulty</label>
-           <input type="text" name="difficulty" required/>
+           <input type="text" name="difficulty" required/><br>
             
+           <input type="submit" value="Add Flashcard"/>
         </form>
          
         ${messageRemoveFlashcard}

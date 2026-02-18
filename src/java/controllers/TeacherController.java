@@ -4,11 +4,15 @@
  */
 package controllers;
 
+import data.FlashCardsDB;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import scc.QuestionAndAnswer;
+import util.Validation;
 
 
 /**
@@ -29,6 +33,56 @@ public class TeacherController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String action = request.getParameter("action");
+        
+        ArrayList<String> message = new ArrayList(); //errors here
+        String url = "UserPortals/teacherPortal.jsp";
+        
+        switch (action){
+            case "addNewFlashcard" : 
+                //all validity checks done in .qaValid() -> no checks needed here
+                String question = request.getParameter("question");
+                String answer = request.getParameter("answer");
+                String points = request.getParameter("points");
+                String difficulty = request.getParameter("difficulty");
+                
+                if(Validation.qaValid(question, answer, points, difficulty, message)){
+                    System.out.println("Teacher controller -> .qaValid = true");
+                    message.clear();
+                    
+                     int difficultyInt = 0;
+                     if (difficulty.contains(".")){
+                         try{
+                             double holder = Double.parseDouble(difficulty);
+                             difficultyInt = (int) holder;
+                         }catch(NumberFormatException ex){
+                             System.out.print(ex);
+                         }
+                         
+                         
+                     }
+
+                     double pointsDouble = Double.parseDouble(points); 
+                    
+                    QuestionAndAnswer qa = new QuestionAndAnswer(question, answer, difficultyInt, pointsDouble);
+                    
+                    try{
+                        FlashCardsDB.insertQuestionAnswer(qa);
+                    }catch (Exception ex){
+                        System.out.print("Issue inserting qa into db try-catch block checking .flashCards.insertQuestionAnswer()");
+                    }
+                    
+                    url = "/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/addOrRemoveFlashcards.jsp"; //bugged url
+                    
+                    
+                }
+                
+                break;
+        }
+        
+              getServletContext()
+                   .getRequestDispatcher(url)
+                   .forward(request, response);
    
     }
 

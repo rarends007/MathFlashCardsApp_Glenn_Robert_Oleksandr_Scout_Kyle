@@ -45,5 +45,64 @@ public class Validation {
        
        return isValid;
     }
+     
+     
+     
+    public static boolean qaValid(String question, String answer, String points, String difficulty, ArrayList<String> message){
+        boolean isValidQA = true;
+        
+        if(
+            !helper_checkStringNullorBlank("answer", answer, message) ||
+            !helper_checkStringNullorBlank("question", question, message) ||
+            !helper_checkStringNullorBlank("points", points, message) ||
+            !helper_checkStringNullorBlank("difficulty", difficulty, message) 
+                ){
+            isValidQA = false;
+        }
+        
+        if(
+           !helper_checkIsNumber("difficulty", difficulty, message) ||
+           !helper_checkIsNumber("points", points, message)
+                ){
+            isValidQA = false;
+        }
+        
+        return isValidQA;
+    }
+    
+    public static boolean helper_checkStringNullorBlank(String fieldName, String str, ArrayList<String> message){
+        boolean notNullOrBlank = true;
+        if (str == null || str.equals("")){
+            notNullOrBlank = false;
+            message.add(str + " must not be blank");
+        }
+        
+        return notNullOrBlank;
+    }
+    
+    public static boolean helper_checkIsNumber(String fieldName, String num, ArrayList<String> message){
+        boolean isNum = false;
+        try{
+            Integer.parseInt(num);
+            isNum = true;
+        }catch(NumberFormatException ex){
+           System.out.println("checked for integer");
+        }
+        
+        try{
+            Double.parseDouble(num);
+            isNum = true;
+        }catch(NumberFormatException ex){
+            System.out.println("checked for real number");
+        }
+        
+        if(!isNum){
+            message.add(fieldName + " must be a number");
+            System.out.println("\n\n in .qaValid() -> .helper_checkisNumber()  -> checks determine not a number\n\n");
+        }
+        
+        return isNum;
+    }
+        
     
 }

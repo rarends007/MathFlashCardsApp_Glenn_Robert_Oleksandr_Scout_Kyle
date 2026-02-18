@@ -31,6 +31,14 @@ public class QuestionAndAnswer {
             this.difficulty = difficulty;
             this.points = points;
         }
+       
+        public QuestionAndAnswer(String question, String answer, int difficulty, double points) {
+            this.question = question;
+            this.answer = answer;
+            this.difficulty = difficulty;
+            this.points = points;
+        }
+       
           
           
         public void setid(int id){
