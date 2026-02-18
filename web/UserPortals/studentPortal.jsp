@@ -28,8 +28,8 @@
                 <aside>
                     <nav class="sidenav">
                         <ul>
-                            <li class="current"><a href="/teacher.html">Class Overview</a></li>
-                            <li><a href="/tests.html">Tests</a></li>
+                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/UserPortals/studentPortal.jsp">Class Overview</a></li>
+                            <li><a href="">Tests</a></li>
                             <li><a href="">Drills</a></li>
                             <li><a href="">Statistics</a></li>
                             <li><a href="">Students</a></li>
