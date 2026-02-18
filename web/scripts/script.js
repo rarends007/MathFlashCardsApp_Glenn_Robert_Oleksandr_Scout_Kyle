@@ -8,27 +8,18 @@ const signInBtn = document.querySelector('.sing_in_container>a');
 const getStarted = document.querySelector('#get_started');
 const drillCreateBtn = document.querySelector('#drill_create_btn');
 const drillCreateCloseBtn = document.querySelector('#drill_create_close_btn');
-
 const cancelBtn = document.querySelector('#login-btn-cancel');
+const addQuestionBtn = document.querySelector('#add_question');
+const createAnswerBtn = document.querySelector('#create_answer');
 
 //separated button logic so that it would allow a cancel to execute, with the original logic " if(signInBtn || getStarted) {} " the condition was always true, leading to logic issues with the cancel button
-if (signInBtn) {
-    signInBtn.addEventListener('click', (e) => signInForm(e));
-}
-
-if (getStarted) {
-    getStarted.addEventListener('click', (e) => signInForm(e));
-}
-  
-if(cancelBtn){
-    cancelBtn.addEventListener('click', (e) => cancelSignInForm(e));
-}
-if(drillCreateBtn){
-    drillCreateBtn.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'flex');
-}
-if(drillCreateCloseBtn){
-    drillCreateCloseBtn.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'none');
-}
+signInBtn?.addEventListener('click', (e) => signInForm(e));
+getStarted?.addEventListener('click', (e) => signInForm(e));
+cancelBtn?.addEventListener('click', (e) => cancelSignInForm(e));
+drillCreateBtn?.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'flex');
+drillCreateCloseBtn?.addEventListener('click', () => document.querySelector('.drill_create_container').style.display = 'none');
+addQuestionBtn?.addEventListener('click', () => document.querySelector('.add_qestion_form').style.display = 'flex');
+createAnswerBtn?.addEventListener('click', () => document.querySelector('.create_answer_container').style.display = 'flex');
 
 function signInForm(e) {
     e.preventDefault();

@@ -124,7 +124,7 @@ section p,
 section h2,
 section h3,
 section h4 {
-    margin-top: 30px;
+    margin: 30px 0;
 }
 
 header {
@@ -401,4 +401,12 @@ nav a:hover {
 .question_container>li> input{
     width: 20px !important;
     height: 20px !important;
+}
+
+.add_qestion_form{
+    display: none;
+    flex-direction: column;
+}
+.create_answer_container{
+    display: none;
 }

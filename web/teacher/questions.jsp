@@ -37,33 +37,53 @@
                 </nav>
             </aside>
             <section>
-        <h1>Add Question To Pool</h1>
-        ${messageAddFlashcard}
-        <form action ="<c:url value="/Teacher"/>" method="post">
-            <input type="hidden" name="action" value="addNewFlashcard"/>
-            
-            <label>Question</label>
-            <input type="text" name="question" required/><br>
-            
-            <label>Answer</label>
-            <input type="text" name="answer" required/><br>
-            
-            <label>points</label>
-            <input type="text" name="points" required/><br>
-            
-           <label>difficulty</label>
-           <input type="text" name="difficulty" required/><br>
-            
-           <input type="submit" value="Add Flashcard"/>
-        </form>
-         
-        ${messageRemoveFlashcard}
-        <h1>Remove Question</h1>
-        
-        <!-- TODO
-        1. load the flash cards into a list
-        2. export that list here
-        3. based on the id chosen, send that flashcard back to the Teacher Controller when they click the 'delete' button-->
+                <h2>Questions Pool</h2>
+                <button class="btn-primary" id="add_question">Add Question</button>
+                <p>${messageAddFlashcard}</p>
+                <form class="add_qestion_form" action ="<c:url value="/Teacher"/>" method="post">
+                    <input type="hidden" name="action" value="addNewQuestion"/>
+
+                    <label>Question</label>
+                    <textarea name="question" required></textarea>
+
+
+                    <h4>Answers</h4>
+
+                    <ul>
+                        <li> 
+                            <!--list of answers go here-->
+                        </li>
+                    </ul>
+                    <button class="btn-primary" id="create_answer">Create New Answer</button>
+                    <div class="create_answer_container">
+                        <label>Answer</label>
+                        <div>
+                            <textarea name="answer" required></textarea>
+                            <input type="checkbox"> Right Answer
+                        </div>
+                        <button class="btn-secondary" >Add Answer</button>
+                    </div>
+                    <label>points</label>
+                    <input type="number" name="points" required/><br>
+
+                    <label>difficulty</label>
+                    <select>
+                        <option value="">--Please choose difficulty--</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+
+                    <input type="submit" value="Add Flashcard"/>
+                </form>
+
+                ${messageRemoveFlashcard}
+                <h1>Remove Question</h1>
+
+                <!-- TODO
+                1. load the flash cards into a list
+                2. export that list here
+                3. based on the id chosen, send that flashcard back to the Teacher Controller when they click the 'delete' button-->
             </section>
-    </body>
-</html>
+            <script src="../scripts/script.js"></script>
+            </body>
