@@ -18,7 +18,7 @@
             <h3>${message}</h3>
         </div>
         <form action="Public" class="log_in_form modular_menu" id="login_form" method="post">
-            <h3>Welcome back! Glad to see you, Again!</h2>
+                <h3>Welcome back! Glad to see you, Again!</h2>
                 <input type="hidden" name="action" value="login"/>
                 <div>
                     <input type="text" placeholder="Enter your username" name="username" id="username">
@@ -27,5 +27,5 @@
                 <input type="submit" value="Login" class="btn-primary">
                 <input type="button" id="login-btn-cancel" value="Cancel" class="btn-secondary">
                 </form>
-                </body>
-                </html>
+     </body>
+</html>

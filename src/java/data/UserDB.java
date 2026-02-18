@@ -8,8 +8,8 @@ import java.sql.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import scc.Admin;
-import scc.Parent;
+//import scc.Admin;
+//import scc.Parent;
 
 import BaseClasses.User;
 import util.PasswordUtil;

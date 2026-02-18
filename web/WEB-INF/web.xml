@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-    
     <!--All Controller mapping-->
     <servlet>
         <servlet-name>Admin</servlet-name>
         <servlet-class>controllers.AdminController</servlet-class>
     </servlet>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/Admin/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Teacher</servlet-name>
+        <servlet-class>controllers.TeacherController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Teacher</servlet-name>
+        <url-pattern>/TeacherController</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -16,12 +24,10 @@
         <servlet-class>controllers.PublicController</servlet-class>
     </servlet>
     <servlet-mapping>
-         <servlet-name>Public</servlet-name>
-         <url-pattern>/Public/*</url-pattern>
+        <servlet-name>Public</servlet-name>
+        <url-pattern>/Public/*</url-pattern>
     </servlet-mapping>
-    
-    
-   <!--realm role controll- -> ok this isn't gonna work for us
+    <!--realm role controll- -> ok this isn't gonna work for us
     <security-role>
         <description>Administrators</description>
         <role-name>admin</role-name>
@@ -41,9 +47,8 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>-->
-    
-    
     <!--Session configuration-->
+    
     <session-config>
         <session-timeout>
             30

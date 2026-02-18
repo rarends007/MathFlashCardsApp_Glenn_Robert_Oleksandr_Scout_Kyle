@@ -8,7 +8,7 @@
               username="capstone_2026"
               password="172RAjRy1vTJt8uYcmYk"
               maxTotal="5"
-              maxIdle="10"
+              maxIdle="60"
               maxWaitMillis="10000"
               logAbandoned="true"
               removeAbandoned="true"
