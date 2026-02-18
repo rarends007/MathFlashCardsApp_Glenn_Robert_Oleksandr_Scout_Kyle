@@ -14,7 +14,7 @@ USE math_app;
 -- PK only tables
 CREATE TABLE user
 (
-	username			VARCHAR(20)				PRIMARY KEY 
+	username			VARCHAR(20)				PRIMARY KEY 	
    ,password			VARCHAR(256)			NOT NULL
    ,salt				VARCHAR(100)
    ,first_name			VARCHAR(50) 			NOT NULL
@@ -35,7 +35,7 @@ CREATE TABLE class
 
 CREATE TABLE assessment
 (
-	assessment_id	   	INT 					PRIMARY KEY
+	assessment_id	   	INT 					PRIMARY KEY			AUTO_INCREMENT
    ,rules			   	VARCHAR(500)		    
    ,type			   	CHAR(1)					NOT NULL      -- possible types are -> options = d, I, q, p
    ,level			   	INT 					
@@ -47,7 +47,7 @@ CREATE TABLE assessment
 
 CREATE TABLE qa
 (	
-	qa_id				int						PRIMARY KEY
+	qa_id				int						PRIMARY KEY			AUTO_INCREMENT
    ,question 			VARCHAR(999)			
    ,answer				VARCHAR(999)			
    ,points				DECIMAL(5,2)	
@@ -100,7 +100,7 @@ CREATE TABLE qa_assessment
 		(qa_id) REFERENCES qa (qa_id)
 );
 
-CREATE TABLE student_assessment 
+CREATE TABLE student_assessment 								
 (
 	student_username   	VARCHAR(10)			NOT NULL
    ,assessment_id		INT 				NOT NULL
@@ -118,7 +118,7 @@ CREATE TABLE student_assessment
 
 CREATE TABLE messages
 (
-	message_id			INT 				PRIMARY KEY
+	message_id			INT 				PRIMARY KEY				AUTO_INCREMENT
    ,message_text 		VARCHAR(1000)	 	NOT NULL 		DEFAULT ""
    ,sender_username		VARCHAR(10)			NOT NULL
    ,reciever_username	VARCHAR(10)			NOT NULL
@@ -145,8 +145,7 @@ INSERT INTO user (username, password, salt, first_name, middle_name, last_name, 
 ('studentc',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Sophia',    NULL,          'Jacobs',       'STU', 50,  3980),
 ('ADMIN001',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Glenn',    NULL,           'Ray',         'ADM',  0,   920),
 ('parent01',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Robert',  'Charles',      'Arends',       'PAR',  0,     0),
-('parent02',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Xue',      NULL,          'Arends'
--- NOTE: All hashed + salted passwords base passwords are "test." -RA
+('parent02',   'f8e2d35e3a4b3b41be462f420afa736adf4cca8440ab1d7aab6ee907652b486a', '4tdO/YohPw1BUOPkwUnUmFQOztH1RcfekR5HZ3nxXAo=',  'Xue',      NULL,          'Arends',       'PAR',  0,     0);
 
 -- =====================================================================
 -- parent_student relationships
