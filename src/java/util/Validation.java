@@ -43,6 +43,10 @@ public class Validation {
           message.add("This username already exists. Choose a different one.") ;
        }    
        
+       if(isValid){
+           message.clear();
+       }
+       
        return isValid;
     }
      
@@ -61,11 +65,16 @@ public class Validation {
         }
         
         if(
-           !helper_checkIsNumber("difficulty", difficulty, message) ||
-           !helper_checkIsNumber("points", points, message)
+           !helper_checkIsNumber("difficulty", difficulty, message)
                 ){
             isValidQA = false;
         }
+        
+        if(
+            !helper_checkIsNumber("points", points, message)
+                ){
+            isValidQA = false;
+         }
         
         return isValidQA;
     }
@@ -82,6 +91,7 @@ public class Validation {
     
     public static boolean helper_checkIsNumber(String fieldName, String num, ArrayList<String> message){
         boolean isNum = false;
+     
         try{
             Integer.parseInt(num);
             isNum = true;

@@ -36,7 +36,7 @@ public class TeacherController extends HttpServlet {
         String action = request.getParameter("action");
         
         ArrayList<String> message = new ArrayList(); //errors here
-        String url = "UserPortals/teacherPortal.jsp";
+        String url = "/teacher/index.jsp";
         
         switch (action){
             case "addNewFlashcard" : 
@@ -72,11 +72,21 @@ public class TeacherController extends HttpServlet {
                         System.out.print("Issue inserting qa into db try-catch block checking .flashCards.insertQuestionAnswer()");
                     }
                     
-                    url = "/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher_pages/addOrRemoveFlashcards.jsp"; //bugged url
+                   
                     
                     
+                }else{
+                    System.out.println("error -> action addNewFlashcard");
+                    //show errors incase validation fails
+                    request.setAttribute("messageAdd", message);
                 }
+                 url = "/teacher/addOrDeleteQA.jsp"; //bugged url
+                break;
                 
+            case "loadFlashcards" :
+                
+                break;
+            case "deleteFlashcard" : 
                 break;
         }
         

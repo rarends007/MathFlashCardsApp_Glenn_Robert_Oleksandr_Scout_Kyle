@@ -38,7 +38,7 @@ public class FlashCardsDB {
             return ps.executeUpdate();
             
         }catch (SQLException ex){
-            System.out.println("\n\nissue in .inserQuestionAnswer() \n" + ex + "\n\n");
+            System.out.println("\n\nissue in .insertQuestionAnswer() \n" + ex + "\n\n");
             return 0;
         }finally{
             DBUtil.closePreparedStatement(ps);
