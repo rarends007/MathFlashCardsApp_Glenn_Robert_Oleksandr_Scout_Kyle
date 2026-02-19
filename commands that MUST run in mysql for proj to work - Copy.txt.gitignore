@@ -28,7 +28,8 @@ EXIT;
 			OR DO THIS ->
 
 
-//As of 2/18/26 if you want to use the db please run these 2 commands if you previously made a user and don't want to make another one.
+//As of 2/18/26 if you want to use the db please run these 2 commands if you previously made a user and don't want to make another one. 
+//This is done as an attempt to gain compatibility with Docker
 RENAME USER 'capstone_user'@'localhost' TO 'capstone_2026'@'localhost'; 
 
 ALTER USER 'capstone_2026'@'localhost' IDENTIFIED BY 'Password_Capstone_1475';
