@@ -131,6 +131,10 @@ header {
     width: 100%;
 }
 
+label{
+    margin-top: 10px;
+}
+
 .wrapper {
     width: 1200px;
     max-width: 1200px;
@@ -409,4 +413,30 @@ nav a:hover {
 }
 .create_answer_container{
     display: none;
+    flex-direction: column;
+}
+
+.correct_answer{
+    border: 3px solid green;
+}
+#answer_list{
+    padding: 0;
+    list-style: none;
+}
+
+#answer_list> li{
+    margin-bottom: 10px;
+    background-color: var(--gray);
+    padding: 10px 20px
+}
+.correct_answer_container {
+    margin: 10px;
+}
+.correct_answer_container > input{
+    width: 15px;
+    height: 15px;
+}
+
+.add_qestion_form > input[type='submit']{
+    margin-top: 10px;
 }
