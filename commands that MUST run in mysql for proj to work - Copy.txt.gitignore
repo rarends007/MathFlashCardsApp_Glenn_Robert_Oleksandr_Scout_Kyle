@@ -3,7 +3,7 @@
 MySQL -u root -p *press enter*
 *put in your password at the prompt*
 
-CREATE USER 'capstone_user'@'localhost' IDENTIFIED BY 'Password_Capstone_1475$';
+CREATE USER 'capstone_user'@'localhost' IDENTIFIED BY 'Password_Capstone_1475';
 
 GRANT ALL PRIVILEGES ON *.* TO 'capstone_user'@'localhost';
 
