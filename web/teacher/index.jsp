@@ -18,8 +18,8 @@
         <div class="hero hero_dashboard">
             <div class="wrapper">
                 <div class="hero_content">
-                    <div class="hero_img student"></div>
-                    <h1>Student Dashboard</h1>
+                    <div class="hero_img teacher"></div>
+                    <h1>Teacher Dashboard</h1>
                 </div>
             </div>
         </div>
