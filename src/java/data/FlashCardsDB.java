@@ -6,6 +6,7 @@ package data;
 
 
 import java.sql.*;
+import java.util.HashMap;
 import scc.QuestionAndAnswer;
 
 
@@ -44,5 +45,16 @@ public class FlashCardsDB {
             pool.freeConnection(connection);
         }
         
+    }
+    
+    public static HashMap<Integer, QuestionAndAnswer> loadAllQA(){
+        HashMap<Integer, QuestionAndAnswer> qa = new HashMap<>();
+        //TODO add logic
+        return qa;
+    }
+    
+    public static boolean deleteQA(int qa_id){
+        //TODO add logic
+        return true;
     }
 }
