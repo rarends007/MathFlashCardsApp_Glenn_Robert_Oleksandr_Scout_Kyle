@@ -41,7 +41,7 @@ public class QuestionAndAnswer {
        
           
           
-        public void setid(int id){
+        public void setID(int id){
             this.id = id;
         }
         
@@ -62,7 +62,7 @@ public class QuestionAndAnswer {
             this.points = points;
         }
         
-        public int getId(){
+        public int getID(){
             return id;
         }
         

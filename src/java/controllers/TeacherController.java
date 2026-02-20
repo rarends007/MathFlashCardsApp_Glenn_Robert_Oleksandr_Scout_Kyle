@@ -7,6 +7,7 @@ package controllers;
 import data.FlashCardsDB;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +35,14 @@ public class TeacherController extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("action");
-        
         ArrayList<String> message = new ArrayList(); //errors here
-        String url = "/teacher/index.jsp";
         
-        switch (action){
+        
+        System.out.println("current teacher action is " + action);
+        String url = "/teacher/index.jsp";
+
+        if(action != null){
+            switch (action){ //hm, so a switch is secretly a HashMap() in the background, good to know, makes sense, the < (), case: > pair
             case "addNewFlashcard" : 
                 //all validity checks done in .qaValid() -> no checks needed here
                 String question = request.getParameter("question");
@@ -80,23 +84,42 @@ public class TeacherController extends HttpServlet {
                     
                     
                 }else{
-                    System.out.println("error -> action addNewFlashcard");
+                    System.out.println("for dev -> error -> action addNewFlashcard");
                     //show errors incase validation fails
                     request.setAttribute("messageAdd", message);
                 }
                  url = "/teacher/addOrDeleteQA.jsp"; //bugged url
                 break;
                 
-            case "loadFlashcards" :
-                
+            case "loadFlashCards" :
+                        // start ------- Load the flashcards into a HashMap
+               HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>();
+               try{
+                  if (qaHashMap.isEmpty()){
+                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                         request.setAttribute("qaHashMap", qaHashMap);
+                  }
+
+               }catch(Exception ex){
+                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+               }
+               // end ---------------------------------------------
+               
+                url = "/teacher/addOrDeleteQA.jsp";
                 break;
             case "deleteFlashcard" : 
                 break;
+            }
+        
         }
         
-              getServletContext()
+        
+            getServletContext()
                    .getRequestDispatcher(url)
                    .forward(request, response);
+        
+              
    
     }
 

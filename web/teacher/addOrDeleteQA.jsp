@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
-        <jsp:include page="/nav.jsp" />
+        <jsp:include page="../nav.jsp" />
 
         <div class=" hero hero_dashboard">
             <div class="wrapper">
@@ -24,18 +24,19 @@
                 </div>
             </div>
         </div>
+        
         <div class="wrapper">
             <main>
                 <aside>
                     <nav class="sidenav">
-                       <ul>
-                        <li ><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/index.jsp">Class Overview</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/tests.jsp">Tests</a></li>
-                        <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/drills.jsp">Drills</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/statistics.jsp">Statistics</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/students.jsp">Students</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/addOrDeleteQA.jsp">Add or Delete Flashcards</a></li>
-                    </ul>
+                        <ul>
+                            <li ><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/index.jsp">Class Overview</a></li>
+                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/tests.jsp">Tests</a></li>
+                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/drills.jsp">Drills</a></li>
+                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/statistics.jsp">Statistics</a></li>
+                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/students.jsp">Students</a></li>
+                            <li><a href="/Teacher?action=loadFlashCards">Add or Delete Flashcards</a></li>
+                        </ul>
                     </nav>
                 </aside>
               
@@ -62,18 +63,19 @@
                          
                          <h1>Delete Flashcard</h1>
                          ${messageDel}
-                         <form action="../Teacher" method="post"/>
-                         
-                            <input type="hidden" name="action" value="deleteFlashcard"./>
-                            
-                          
-                         
-                         
-                            <br>
-                            <form action ="<c:url value="/Teacher"/>" method="post"/>
-                                <input type ="hidden" name="action" value="loadFlashcards"/>
-                                <input type="submit" value="Load All Flashcards"./>
-                            </form>
+                         <form action="<c:url value="/Teacher"/>" method="post"/>
+
+
+                            <select name="selectedQuestionToDelete" size="20" multiple="multiple" style="overflow-y: auto;"> <!--<!-- overflow-y chosen because we want a verticle (y-axis) overflow, multiple means they can select more than 1 -> returns a String[] -->
+                                     <c:forEach var="item" items="${qaHashMap.values()}">
+                                         <option value="${item.getID()}">Question:  ${item.getQuestion()} &nbsp; difficulty: ${item.getDifficulty()} &nbsp; Points: ${item.getPoints()}</option>
+                                     </c:forEach>
+                            </select>
+                                
+                         <br>
+                                 <input type="hidden" name="action" value="deleteQA">
+                                 <input type="submit" value="Delete Flashcard">
+
                          </form>
                          
                          
