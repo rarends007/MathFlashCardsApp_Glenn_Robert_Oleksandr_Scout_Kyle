@@ -41,7 +41,7 @@ public class TeacherController extends HttpServlet {
         System.out.println("current teacher action is " + action);
         String url = "/teacher/index.jsp";
         
-         HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>();
+         HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>(); //looking back, an array list is better here, but I'm not changing it, more work...The key is doing nothing.
 
         if(action != null){
             switch (action){ //hm, so a switch is secretly a HashMap() in the background, good to know, makes sense, the < (), case: > pair
@@ -123,7 +123,42 @@ public class TeacherController extends HttpServlet {
                
                 url = "/teacher/addOrDeleteQA.jsp";
                 break;
-            case "deleteFlashcard" : 
+            case "deleteQA" : 
+                System.out.println("entering flashcard delete logic");
+                String flashCardToDelete = request.getParameter("selectedQuestionToDelete");
+                
+                System.out.println("qa id selected = " + flashCardToDelete);
+                
+                try{
+                   int flashcardID = Integer.parseInt(flashCardToDelete);
+                   FlashCardsDB.deleteQA(flashcardID);
+                   
+                   message.clear();
+                   message.add("Selected flashcard deleted");
+                   System.out.println("Flashcard id: " + flashCardToDelete + " was deleted.");
+                }catch (Exception ex){
+                    message.clear();
+                    message.add("You must select a flashcard to delete it, no flashcard was deleted.");
+                    System.out.println("deleteQA -> error");
+                }
+                request.setAttribute("messageDelete", message);
+                
+                url="/teacher/addOrDeleteQA.jsp";
+                
+                      // start ------- Load the flashcards into a HashMap
+               try{
+                  if (qaHashMap.isEmpty()){
+                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                         request.setAttribute("qaHashMap", qaHashMap);
+                  }
+
+               }catch(Exception ex){
+                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+               }
+               // end ---------------------------------------------
+                
+                //TODO -> add delete method call here
                 break;
             }
         

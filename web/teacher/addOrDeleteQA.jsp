@@ -1,7 +1,7 @@
 <%-- 
     Document   : addOrDeleteQA
     Created on : Feb 19, 2026, 12:00:00 AM
-    Author     : raren
+    Author     : raren -> CSS applied by Oleksandr
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -62,17 +62,17 @@
                          </form>
                          
                          <h1>Delete Flashcard</h1>
-                         ${messageDel}
+                         ${messageDelete}
                          <form action="<c:url value="/Teacher"/>" method="post"/>
 
 
                             <select name="selectedQuestionToDelete" size="20" multiple="multiple" style="overflow-y: auto;"> <!--<!-- overflow-y chosen because we want a verticle (y-axis) overflow, multiple means they can select more than 1 -> returns a String[] -->
                                      <c:forEach var="item" items="${qaHashMap.values()}">
-                                         <option value="${item.getID()}">Question:  ${item.getQuestion()} &nbsp; difficulty: ${item.getDifficulty()} &nbsp; Points: ${item.getPoints()}</option>
+                                         <option value="${item.getID()}">Question:  ${item.getQuestion()} &nbsp; Difficulty: ${item.getDifficulty()} &nbsp; Points: ${item.getPoints()}</option>
                                      </c:forEach>
                             </select>
                                 
-                         <br>
+                             <br>
                                  <input type="hidden" name="action" value="deleteQA">
                                  <input type="submit" value="Delete Flashcard">
 
