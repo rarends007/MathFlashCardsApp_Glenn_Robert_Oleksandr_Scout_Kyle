@@ -131,11 +131,12 @@ public class TeacherController extends HttpServlet {
                 
                 try{
                    int flashcardID = Integer.parseInt(flashCardToDelete);
-                   FlashCardsDB.deleteQA(flashcardID);
                    
-                   message.clear();
-                   message.add("Selected flashcard deleted");
-                   System.out.println("Flashcard id: " + flashCardToDelete + " was deleted.");
+                   if( FlashCardsDB.deleteQA(flashcardID)){
+                       message.clear();
+                       message.add("Selected flashcard deleted");
+                       System.out.println("Flashcard id: " + flashCardToDelete + " was deleted.");
+                   }
                 }catch (Exception ex){
                     message.clear();
                     message.add("You must select a flashcard to delete it, no flashcard was deleted.");
