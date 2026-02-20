@@ -66,6 +66,10 @@ public class TeacherController extends HttpServlet {
                     
                     QuestionAndAnswer qa = new QuestionAndAnswer(question, answer, difficultyInt, pointsDouble);
                     
+                    message.add("Flashcard added!");
+                    request.setAttribute("messageAdd", message);
+
+                    
                     try{
                         FlashCardsDB.insertQuestionAnswer(qa);
                     }catch (Exception ex){
