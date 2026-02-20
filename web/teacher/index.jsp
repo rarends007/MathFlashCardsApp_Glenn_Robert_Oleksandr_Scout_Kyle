@@ -33,7 +33,7 @@
                             <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/drills.jsp">Drills</a></li>
                             <li><a href="">Statistics</a></li>
                             <li><a href="">Students</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Add or Delete Flashcards</a></li>
+                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Questions Manager</a></li>
                         </ul>
                     </nav>
                 </aside>
