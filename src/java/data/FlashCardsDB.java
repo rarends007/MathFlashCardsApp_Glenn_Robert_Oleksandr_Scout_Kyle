@@ -98,31 +98,31 @@ public class FlashCardsDB {
         
     }
     
-    public static int deleteQA(int qa_id){
-        //TODO add logic
+    public static boolean deleteQA(int qa_id){
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         
+        boolean success = false; //boolean to track successful deletion
+        
         String sql = 
                 """
-                    DELETE FROM qa
-                    WHERE qa_id = ?;
+                     DELETE FROM qa 
+                      WHERE qa_id = ?
                 """;
         try{
             ps = connection.prepareStatement(sql);
             ps.setInt(1, qa_id);
             
-            return ps.executeUpdate();
-            
+            ps.executeUpdate();
+            success = true;
         }catch (SQLException ex){
-            System.out.println("\n\nissue in .insertQuestionAnswer() \n" + ex + "\n\n");
-            return 0;
+            System.out.println("\nissue in .deleteQA() \n" + ex + "\n\n");
+            success = false;
         }finally{
             DBUtil.closePreparedStatement(ps);
             pool.freeConnection(connection);
         }
-        
-       
+        return success;
     }
 }
