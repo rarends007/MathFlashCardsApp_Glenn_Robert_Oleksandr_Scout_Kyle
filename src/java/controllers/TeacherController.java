@@ -40,6 +40,8 @@ public class TeacherController extends HttpServlet {
         
         System.out.println("current teacher action is " + action);
         String url = "/teacher/index.jsp";
+        
+         HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>();
 
         if(action != null){
             switch (action){ //hm, so a switch is secretly a HashMap() in the background, good to know, makes sense, the < (), case: > pair
@@ -88,12 +90,25 @@ public class TeacherController extends HttpServlet {
                     //show errors incase validation fails
                     request.setAttribute("messageAdd", message);
                 }
-                 url = "/teacher/addOrDeleteQA.jsp"; //bugged url
-                break;
                 
+                     // start ------- Load the flashcards into a HashMap
+               try{
+                  if (qaHashMap.isEmpty()){
+                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                         request.setAttribute("qaHashMap", qaHashMap);
+                  }
+
+               }catch(Exception ex){
+                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+               }
+               // end ---------------------------------------------
+               
+                 url = "/teacher/addOrDeleteQA.jsp"; //bugged url
+                 
+                 break;
             case "loadFlashCards" :
                         // start ------- Load the flashcards into a HashMap
-               HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>();
                try{
                   if (qaHashMap.isEmpty()){
                         FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
