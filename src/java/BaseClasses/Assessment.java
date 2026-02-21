@@ -15,6 +15,7 @@ public class Assessment {
        private int assessmentID;
        private String subject;
        private int difficulty;
+       private String assessmentType; // in db must be d, q, i, p -> d = drill, p = progressionAssessmentTest, i = iniitialAssessmentTest, q = quiz
        private double score;
        private String rules;
        private int numQuesitons;
@@ -26,6 +27,7 @@ public class Assessment {
            assessmentID = -1;
            subject = null;
            difficulty = -1;
+           assessmentType = null;
            score = 0;
            rules = null;
            numQuesitons = 0;
@@ -46,6 +48,10 @@ public class Assessment {
        
        public void setDifficulty(int difficulty){
            this.difficulty = difficulty;
+       }
+       
+       public void setAssessmentType(String assessmentType){
+           this.assessmentType = assessmentType;
        }
        
        public void setScore(double score){
@@ -78,6 +84,10 @@ public class Assessment {
        
        public int getDifficulty(){
            return difficulty;
+       }
+       
+       public String getAssessmentType(){
+           return assessmentType;
        }
        
        public double getScore(){
