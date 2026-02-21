@@ -6,12 +6,14 @@ package controllers;
 
 import data.FlashCardsDB;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import scc.Drill;
 import scc.QuestionAndAnswer;
 import util.Validation;
 
@@ -160,6 +162,43 @@ public class TeacherController extends HttpServlet {
                // end ---------------------------------------------
                 
                 //TODO -> add delete method call here
+                break;
+            case "createDrill" :
+                System.out.println("Creating new drill");
+                String drillSubject = request.getParameter("subject");
+                String drillDifficulty = request.getParameter("difficulty");
+                String rules = request.getParameter("rules");
+                String drillNumQuestions =  request.getParameter("numQuestions");
+                String random = request.getParameter("random");
+                
+                int drillDifficultyInt = 0;
+                try {
+                    drillDifficultyInt = parseInt(drillDifficulty);
+                } catch (NumberFormatException ex){
+                    System.out.print(ex);
+                }
+                
+                int drillNumQuestionsInt = 0;
+                try {
+                    drillNumQuestionsInt = parseInt(drillNumQuestions);
+                } catch (NumberFormatException ex){
+                    System.out.print(ex);
+                }
+                
+                boolean drillIsRandom = false;
+                if (random.equals("true")) {
+                    drillIsRandom = true;
+                }
+                
+                Drill drill = new Drill();
+                drill.setDifficulty(drillDifficultyInt);
+                drill.setSubject(drillSubject);
+                drill.setRules(rules);
+                drill.setNumQuestions(drillNumQuestionsInt);
+                drill.setIsRandom(drillIsRandom);
+                
+                url = "/teacher/drills.jsp";
+                
                 break;
             }
         
