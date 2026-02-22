@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import BaseClasses.Assessment;
 import data.FlashCardsDB;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
@@ -163,6 +164,11 @@ public class TeacherController extends HttpServlet {
                 
                 //TODO -> add delete method call here
                 break;
+            case "loadDrills" :
+                HashMap<Integer, Assessment> drills = FlashCardsDB.selectAssessmentsByType("d");
+                request.setAttribute("drills", drills);
+                url = "/teacher/drills.jsp";
+                break;
             case "createDrill" :
                 System.out.println("Creating new drill");
                 String drillSubject = request.getParameter("subject");
@@ -196,6 +202,9 @@ public class TeacherController extends HttpServlet {
                 drill.setRules(rules);
                 drill.setNumQuestions(drillNumQuestionsInt);
                 drill.setIsRandom(drillIsRandom);
+                
+                drills = FlashCardsDB.selectAssessmentsByType("d");
+                request.setAttribute("drills", drills);
                 
                 url = "/teacher/drills.jsp";
                 

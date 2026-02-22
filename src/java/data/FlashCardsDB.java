@@ -5,8 +5,10 @@
 package data;
 
 
+import BaseClasses.Assessment;
 import java.sql.*;
 import java.util.HashMap;
+import scc.Drill;
 import scc.QuestionAndAnswer;
 
 
@@ -124,5 +126,55 @@ public class FlashCardsDB {
             pool.freeConnection(connection);
         }
         return success;
+    }
+    
+    public static HashMap<Integer, Assessment> selectAssessmentsByType(String assessmentType) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        HashMap<Integer, Assessment> assessments = new HashMap<Integer, Assessment>();
+        
+        String sql = 
+                """
+                     SELECT FROM assessment
+                      WHERE type = ?
+                """;
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, assessmentType);
+            
+            rs = ps.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("assessment_id");
+                String rules = rs.getString("rules");
+                String type = rs.getString("type");
+                int level = rs.getInt("level");
+                double points = rs.getDouble("points");
+                int attempts = rs.getInt("allowed_attempts");
+                int allowed_time = rs.getInt("allowed_time");
+                String random = rs.getString("random_or_specific");
+                
+                Assessment assessment = new Assessment();
+                assessment.setID(id);
+                assessment.setSubject(rules);
+                assessment.setDifficulty(level);
+                assessment.setAssessmentType(type);
+                assessment.setRules(rules);
+                assessment.setAttemptsAllowed(attempts);
+                assessment.setIsRandom(random.equals("R"));
+                assessment.setScore(points);
+                
+                assessments.put(assessment.getAssessmentID(), assessment);
+            }
+            
+            rs.close();
+        }catch (SQLException ex){
+            System.out.println("\nissue in .selectAssessments() \n" + ex + "\n\n");
+        }finally{
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return assessments;
     }
 }
