@@ -440,3 +440,7 @@ nav a:hover {
 .add_qestion_form > input[type='submit']{
     margin-top: 10px;
 }
+.add_flashcard_form{
+    display: flex;
+    flex-direction: column;
+}

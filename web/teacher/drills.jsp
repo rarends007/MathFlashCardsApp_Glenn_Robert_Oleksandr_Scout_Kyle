@@ -5,12 +5,13 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Drills</title>
-        <link rel="stylesheet" href="../styles/style.css">
+          <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
     </head>
     <body>
         <jsp:include page="/nav.jsp" />
@@ -27,14 +28,11 @@
             <main>
                 <aside>
                     <nav class="sidenav">
-                       <ul>
-                        <li ><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/index.jsp">Class Overview</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/tests.jsp">Tests</a></li>
-                        <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/drills.jsp">Drills</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/statistics.jsp">Statistics</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/students.jsp">Students</a></li>
-                        <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Questions Manager</a></li>
-                    </ul>
+                        <ul>
+                            <li><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">Class Overview</a></li>
+                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadDrills">Drills</a></li>
+                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Questions Manager</a></li>
+                        </ul>
                     </nav>
                 </aside>
                 <section>
@@ -68,67 +66,47 @@
                                 <input class="btn-secondary" type="button" value="Close" id="drill_create_close_btn">
                             </div>
                         </form>
+                        <form action="<c:url value="/Teacher"/>" method="post" id="loadFlashCardsForm"> 
+                            <input type="hidden" name="action" value="loadDrills">
+                        </form>
                         <ul class="drill_list">
-                            <!--========================= Placeholder ======================================-->
-                            <li class="drill_container">
-                                <h4>Fractions Practice</h4>
-                                <div class="drill_body">
-                                    <p>Type: Random</p>
-                                    <p>Difficulty: Medium</p>
-                                    <p>Questions: 10</p>                               
-                                </div>
-                                <div class="drill_footer">
-                                    <button class="btn-primary">Edit</button>
-                                    <button class="btn-secondary">View Result</button>
-                                    <button class="btn-outline">Delete</button>
-                                </div>
-                            </li>
-                            <li class="drill_container">
-                                <h4>Fractions Practice</h4>
-                                <div class="drill_body">
-                                    <p>Type: Random</p>
-                                    <p>Difficulty: Medium</p>
-                                    <p>Questions: 10</p>                               
-                                </div>
-                                <div class="drill_footer">
-                                    <button class="btn-primary">Edit</button>
-                                    <button class="btn-secondary">View Result</button>
-                                    <button class="btn-outline">Delete</button>
-                                </div>
-                            </li>
-                            <li class="drill_container">
-                                <h4>Fractions Practice</h4>
-                                <div class="drill_body">
-                                    <p>Type: Random</p>
-                                    <p>Difficulty: Medium</p>
-                                    <p>Questions: 10</p>                               
-                                </div>
-                                <div class="drill_footer">
-                                    <button class="btn-primary">Edit</button>
-                                    <button class="btn-secondary">View Result</button>
-                                    <button class="btn-outline">Delete</button>
-                                </div>
-                            </li>
-                            <li class="drill_container">
-                                <h4>Fractions Practice</h4>
-                                <div class="drill_body">
-                                    <p>Type: Random</p>
-                                    <p>Difficulty: Medium</p>
-                                    <p>Questions: 10</p>                               
-                                </div>
-                                <div class="drill_footer">
-                                    <button class="btn-primary">Edit</button>
-                                    <button class="btn-secondary">View Result</button>
-                                    <button class="btn-outline">Delete</button>
-                                </div>
-                            </li>
-                            <!--============================================================================-->
-                        </ul>
-                    </div>
-                </section>
-            </main>
-        </div>
-        <jsp:include page="/login.jsp" />
-        <script src="../scripts/script.js"></script>
-    </body>
-</html>
+                            <c:forEach var="d" items="${drills}">
+                                <li class="drill_container" id='${d.key}_drill'>
+                                    <h4>${d.value.rules}</h4>
+                                    <div class="drill_body">
+                                        <p>Type: <c:choose>
+                                                <c:when test="${d.value.isRandom == 'R'}">
+                                                    <span>Random</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span>Specific<span>
+                                                        </c:otherwise>
+                                                    </c:choose></p>
+                                                    <p>Difficulty:  <c:choose>
+                                                            <c:when test="${d.value.difficulty == 1 || d.value.difficulty == 0}">
+                                                                <span>Easy</span>
+                                                            </c:when>
+                                                            <c:when test="${d.value.difficulty == 2 }">
+                                                                <span>Medium</span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span>Hard<span>
+                                                                    </c:otherwise>
+                                                                </c:choose></p>                            
+                                                                </div>
+                                                                <div class="drill_footer">
+                                                                    <button class="btn-primary">Edit</button>
+                                                                    <button class="btn-secondary">View Result</button>
+                                                                    <button class="btn-outline">Delete</button>
+                                                                </div>
+                                                                </li>
+                                                            </c:forEach>
+                                                            </ul>
+                                                            </div>
+                                                            </section>
+                                                            </main>
+                                                            </div>
+                                                            <jsp:include page="/login.jsp" />
+                                                            <script src="../scripts/script.js"></script>
+                                                            </body>
+                                                            </html>

@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add or Delete Flashcard</title>
-        <link rel="stylesheet" href="../styles/style.css">
+          <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
     </head>
     <body>
         <jsp:include page="../nav.jsp" />
@@ -30,12 +30,9 @@
                 <aside>
                     <nav class="sidenav">
                         <ul>
-                            <li ><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/index.jsp">Class Overview</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/tests.jsp">Tests</a></li>
-                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/drills.jsp">Drills</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/statistics.jsp">Statistics</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/teacher/students.jsp">Students</a></li>
-                            <li><a href="/Teacher?action=loadFlashCards">Add or Delete Flashcards</a></li>
+                            <li><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">Class Overview</a></li>
+                            <li><a href="${pageContext.request.contextPath}/teacher/drills.jsp">Drills</a></li>
+                            <li class="current"><a href="${pageContext.request.contextPath}/Teacher?action=loadFlashCards">Add or Delete Flashcards</a></li>
                         </ul>
                     </nav>
                 </aside>
@@ -43,7 +40,7 @@
                 <section>
                          <h1>Add Flashcard</h1>
                          ${messageAdd}
-                         <form action="<c:url value="/Teacher"/>" method="post">
+                         <form action="<c:url value="/Teacher"/>" method="post" class="add_flashcard_form">
                              <input type="hidden" name="action" value="addNewFlashcard"/><br>
                              
                              <label>Question</label>

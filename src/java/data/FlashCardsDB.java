@@ -137,8 +137,9 @@ public class FlashCardsDB {
         
         String sql = 
                 """
-                     SELECT FROM assessment
-                      WHERE type = ?
+                    SELECT *
+                    FROM assessment
+                    WHERE type = ?
                 """;
         try{
             ps = connection.prepareStatement(sql);
@@ -176,5 +177,100 @@ public class FlashCardsDB {
             pool.freeConnection(connection);
         }
         return assessments;
+    }
+    
+    public static HashMap<Integer, Assessment> selectAssessmentsByClass (String classId){
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        HashMap<Integer, Assessment> assessments = new HashMap<>();
+        
+        String sql = 
+                """
+                    SELECT a.*
+                    FROM assessment a
+                        JOIN assessment_class AS ac
+                            ON a.assessment_id = ac.assessment_id
+                    WHERE ac.class_id = ?;
+                """;
+        
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, classId);            
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                int id = rs.getInt("assessment_id");
+                String rules = rs.getString("rules");
+                int level = rs.getInt("level");
+                String type = rs.getString("type");
+                int attempts = rs.getInt("allowed_attempts");
+                String random = rs.getString("random_or_specific");
+                double points = rs.getDouble("points");
+                
+                Assessment assessment = new Assessment();
+                assessment.setID(id);
+                assessment.setSubject(rules);
+                assessment.setDifficulty(level);
+                assessment.setAssessmentType(type);
+                assessment.setAttemptsAllowed(attempts);
+                assessment.setIsRandom(random.equals("R"));
+                assessment.setScore(points);
+                
+                assessments.put(assessment.getAssessmentID(), assessment);
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println("\nissue in .selectAssessmentsByClass() \n" + ex + "\n\n");
+        } finally{
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return assessments;
+        
+    }
+    
+    public static HashMap<String, String> selectAssessmentResults (String classId, int assessmentId){
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        HashMap<String, String> results = new HashMap<>();
+        
+        String sql = 
+                """
+                SELECT u.username, sa.grade
+                FROM user AS u
+                    JOIN user_class AS uc
+                        ON uc.username = u.username
+                    LEFT JOIN student_assessment AS sa
+                        ON sa.student_username = u.username
+                        AND sa.assessment_id = ?
+                WHERE uc.class_id = ?
+                AND u.role = 'STU';
+                """;
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, assessmentId);  
+            ps.setString(2, classId); 
+            
+            rs = ps.executeQuery();
+            
+            while (rs.next()){
+                results.put(
+                        rs.getString("username"),
+                        rs.getString("grade")
+                );
+            }
+        } catch (SQLException ex) {
+            System.out.println("\nissue in .selectAssessmentResult() \n" + ex + "\n\n");
+        } finally{
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return results;
     }
 }

@@ -37,61 +37,63 @@ public class PublicController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
             HttpSession session = request.getSession();
             ArrayList<String> message = new ArrayList();
 
             String action = request.getParameter("action");
             String url = "/login.jsp";
-           
+
             if(action.equals("login")){
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                
+
                 try{
                     User user = UserDB.loginUser(username, password, message);
-                    
+
                     if(user != null){
+                        ArrayList <String> classList = UserDB.getUserClass(user.getUsername());
                         String role = user.getRole();
+                        session.setAttribute("classList", classList);
                         switch (role){
                             case "ADM":
                                 Admin admin = new Admin();
-                                
+
                                 admin.setFirstname(user.getFirstName());
                                 admin.setMiddlename(user.getMiddleName());
                                 admin.setLastname(user.getLastName());
                                 admin.setUsername(user.getUsername());
                                 admin.setRole(role);
-                                
+
                                 session.setAttribute("admin", admin);
                                 System.out.println("A admin has logged in -> username: " + admin.getUsername());
                                 url="/UserPortals/adminPortal.jsp";
                                 break;
                             case "TCH":
                                 Teacher teacher = new Teacher();
-               
+
                                 teacher.setFirstname(user.getFirstName());
                                 teacher.setMiddlename(user.getMiddleName());
                                 teacher.setLastname(user.getLastName());
                                 teacher.setUsername(user.getUsername());
                                 teacher.setRole(role);
-                                
+
                                 session.setAttribute("teacher", teacher);
                                 System.out.println("A teacher has logged in -> username: " + teacher.getUsername());
-                                url="/UserPortals/teacherPortal.jsp";
+                                url="/Teacher?action=viewMyClasses";
                                 break;
                             case "PAR":
                                 Parent parent = new Parent();
-    
+
                                 parent.setFirstname(user.getFirstName());
                                 parent.setMiddlename(user.getMiddleName());
                                 parent.setLastname(user.getLastName());
                                 parent.setUsername(user.getUsername());
                                 parent.setRole(role);
-                                
+
                                 session.setAttribute("parent", parent);
                                 System.out.println("A parent has logged in -> username: " + parent.getUsername());
-                                url="/UserPortals/parentPortal.jsp";
+                                url="/parent/index.jsp";
                                 break;
                             case "STU":
                                 Student student = new Student();
@@ -101,33 +103,33 @@ public class PublicController extends HttpServlet {
                                 student.setLastname(user.getLastName());
                                 student.setUsername(user.getUsername());
                                 student.setRole(role);
-                                
+
                                 session.setAttribute("student", student);
                                 System.out.println("A student has logged in -> username: " + student.getUsername());
-                                url="/UserPortals/studentPortal.jsp";
+                                url="/student/index.jsp";
                                 break;
-                             
+
                         }
                     }else{
                         message.add("Incorrect username or password.");
                         System.out.println("username or password not exist");
                     }
-                    
-                    
-                    
+
+
+
                 }catch(NoSuchAlgorithmException ex){
                     System.out.println("No such algorithm exception ->  with login.");
                     message.clear();
                     message.add("Error with hashing algorithm. No such algorithm.");
                 }
-                
+
             }
-            
+
              getServletContext()
                    .getRequestDispatcher(url)
                    .forward(request, response);
-            
-            
+
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

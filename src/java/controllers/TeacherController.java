@@ -208,6 +208,48 @@ public class TeacherController extends HttpServlet {
                 
                 url = "/teacher/drills.jsp";
                 
+                break; 
+                
+            case "viewMyClasses":
+                var session = request.getSession();
+                ArrayList <String> classList = (ArrayList<String>) request.getSession().getAttribute("classList");
+                
+                System.out.println("ClassList: " + classList);
+                if(classList == null){
+                    scc.Teacher t = (scc.Teacher) session.getAttribute("teacher");
+                    
+                    if(t != null){
+                        classList = data.UserDB.getUserClass(t.getUsername());
+                        request.setAttribute("classList", classList);
+                    }
+                }
+                
+                System.out.print("DEBUG ClassList=" +classList);
+                request.setAttribute("classIds", classList);
+                url = "/teacher/index.jsp";
+                break;
+                
+            case "viewAssignmentsByClass" :
+                String classId = request.getParameter("classId");
+                
+                HashMap<Integer, Assessment> assessments = FlashCardsDB.selectAssessmentsByClass(classId);
+                
+                request.setAttribute("assessments", assessments);
+                request.setAttribute("classId", classId);
+                
+                url = "/teacher/assignments.jsp";
+                break;
+                
+            case "viewAssignmentResults":
+                String selectedClassId = request.getParameter("classId");
+                int assessmentId = Integer.parseInt(request.getParameter("assessmentId"));
+                
+                HashMap<String, String> results = FlashCardsDB.selectAssessmentResults(selectedClassId, assessmentId);
+                
+                request.setAttribute("results", results);
+                request.setAttribute("assessmentId", assessmentId);
+                
+                url = "/teacher/assignmentDetails.jsp";
                 break;
             }
         
