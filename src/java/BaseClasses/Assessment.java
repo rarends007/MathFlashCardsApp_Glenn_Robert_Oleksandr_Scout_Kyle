@@ -22,6 +22,31 @@ public class Assessment {
        private boolean isRandom;
        private int attemptsAllowed;
        private LocalDateTime datetime;
+       private int allowed_time;
+
+    public int getNumQuesitons() {
+        return numQuesitons;
+    }
+
+    public void setNumQuesitons(int numQuesitons) {
+        this.numQuesitons = numQuesitons;
+    }
+
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public int getAllowed_time() {
+        return allowed_time;
+    }
+
+    public void setAllowed_time(int allowed_time) {
+        this.allowed_time = allowed_time;
+    }
        
        public Assessment(){
            assessmentID = -1;
