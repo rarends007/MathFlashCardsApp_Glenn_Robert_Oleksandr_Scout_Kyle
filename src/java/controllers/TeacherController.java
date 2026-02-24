@@ -14,9 +14,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import scc.Drill;
 import scc.QuestionAndAnswer;
 import scc.StudentAssignment;
+import scc.Teacher;
 import util.Validation;
 
 
@@ -46,216 +48,234 @@ public class TeacherController extends HttpServlet {
         String url = "/teacher/index.jsp";
         
          HashMap<Integer, QuestionAndAnswer> qaHashMap = new HashMap<>(); //looking back, an array list is better here, but I'm not changing it, more work...The key is doing nothing.
+         
+         HttpSession session = null;
+         Teacher teacher = null;
+         
+         try{
+             session = request.getSession();
+             teacher = (scc.Teacher) session.getAttribute("teacher");
+         }catch(NullPointerException ex){
+             System.out.println("Non logged in user attempting to access teacher functions." + " " + ex);
+         }
+           
+        if( teacher  != null){
+            if(teacher.getRole().equals("TCH")){
+                if(action != null){
+                    switch (action){ //hm, so a switch is secretly a HashMap() in the background, good to know, makes sense, the < (), case: > pair
+                    case "addNewFlashcard" : 
+                        //all validity checks done in .qaValid() -> no checks needed here
+                        String question = request.getParameter("question");
+                        String answer = request.getParameter("answer");
+                        String points = request.getParameter("points");
+                        String difficulty = request.getParameter("difficulty");
 
-        if(action != null){
-            switch (action){ //hm, so a switch is secretly a HashMap() in the background, good to know, makes sense, the < (), case: > pair
-            case "addNewFlashcard" : 
-                //all validity checks done in .qaValid() -> no checks needed here
-                String question = request.getParameter("question");
-                String answer = request.getParameter("answer");
-                String points = request.getParameter("points");
-                String difficulty = request.getParameter("difficulty");
-                
-                if(Validation.qaValid(question, answer, points, difficulty, message)){
-                    System.out.println("Teacher controller -> .qaValid = true");
-                    message.clear();
-                    
-                     int difficultyInt = 0;
-                     if (difficulty.contains(".")){
-                         try{
-                             double holder = Double.parseDouble(difficulty);
-                             difficultyInt = (int) holder;
-                         }catch(NumberFormatException ex){
-                             System.out.print(ex);
-                         }
-                         
-                         
-                     }
+                        if(Validation.qaValid(question, answer, points, difficulty, message)){
+                            System.out.println("Teacher controller -> .qaValid = true");
+                            message.clear();
 
-                     double pointsDouble = Double.parseDouble(points); 
-                    
-                    QuestionAndAnswer qa = new QuestionAndAnswer(question, answer, difficultyInt, pointsDouble);
-                    
-                    message.add("Flashcard added!");
-                    request.setAttribute("messageAdd", message);
+                             int difficultyInt = 0;
+                             if (difficulty.contains(".")){
+                                 try{
+                                     double holder = Double.parseDouble(difficulty);
+                                     difficultyInt = (int) holder;
+                                 }catch(NumberFormatException ex){
+                                     System.out.print(ex);
+                                 }
 
-                    
-                    try{
-                        FlashCardsDB.insertQuestionAnswer(qa);
-                    }catch (Exception ex){
-                        System.out.print("Issue inserting qa into db try-catch block checking .flashCards.insertQuestionAnswer()");
+
+                             }
+
+                             double pointsDouble = Double.parseDouble(points); 
+
+                            QuestionAndAnswer qa = new QuestionAndAnswer(question, answer, difficultyInt, pointsDouble);
+
+                            message.add("Flashcard added!");
+                            request.setAttribute("messageAdd", message);
+
+
+                            try{
+                                FlashCardsDB.insertQuestionAnswer(qa);
+                            }catch (Exception ex){
+                                System.out.print("Issue inserting qa into db try-catch block checking .flashCards.insertQuestionAnswer()");
+                            }
+
+
+
+
+                        }else{
+                            System.out.println("for dev -> error -> action addNewFlashcard");
+                            //show errors incase validation fails
+                            request.setAttribute("messageAdd", message);
+                        }
+
+                             // start ------- Load the flashcards into a HashMap
+                       try{
+                          if (qaHashMap.isEmpty()){
+                                FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                                 request.setAttribute("qaHashMap", qaHashMap);
+                          }
+
+                       }catch(Exception ex){
+                           System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+                       }
+                       // end ---------------------------------------------
+
+                         url = "/teacher/addOrDeleteQA.jsp"; //bugged url
+
+                         break;
+                    case "loadFlashCards" :
+                                // start ------- Load the flashcards into a HashMap
+                       try{
+                          if (qaHashMap.isEmpty()){
+                                FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                                 request.setAttribute("qaHashMap", qaHashMap);
+                          }
+
+                       }catch(Exception ex){
+                           System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+                       }
+                       // end ---------------------------------------------
+
+                        url = "/teacher/addOrDeleteQA.jsp";
+                        break;
+                    case "deleteQA" : 
+                        System.out.println("entering flashcard delete logic");
+                        String flashCardToDelete = request.getParameter("selectedQuestionToDelete");
+
+                        System.out.println("qa id selected = " + flashCardToDelete);
+
+                        try{
+                           int flashcardID = Integer.parseInt(flashCardToDelete);
+
+                           if( FlashCardsDB.deleteQA(flashcardID)){
+                               message.clear();
+                               message.add("Selected flashcard deleted");
+                               System.out.println("Flashcard id: " + flashCardToDelete + " was deleted.");
+                           }
+                        }catch (Exception ex){
+                            message.clear();
+                            message.add("You must select a flashcard to delete it, no flashcard was deleted.");
+                            System.out.println("deleteQA -> error");
+                        }
+                        request.setAttribute("messageDelete", message);
+
+                        url="/teacher/addOrDeleteQA.jsp";
+
+                              // start ------- Load the flashcards into a HashMap
+                       try{
+                          if (qaHashMap.isEmpty()){
+                                FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
+
+                                 request.setAttribute("qaHashMap", qaHashMap);
+                          }
+
+                       }catch(Exception ex){
+                           System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
+                       }
+                       // end ---------------------------------------------
+
+                        //TODO -> add delete method call here
+                        break;
+                    case "loadDrills" :
+                        HashMap<Integer, Assessment> drills = FlashCardsDB.selectAssessmentsByType("d");
+                        request.setAttribute("drills", drills);
+                        url = "/teacher/drills.jsp";
+                        break;
+                    case "createDrill" :
+                        System.out.println("Creating new drill");
+                        String drillSubject = request.getParameter("subject");
+                        String drillDifficulty = request.getParameter("difficulty");
+                        String rules = request.getParameter("rules");
+                        String drillNumQuestions =  request.getParameter("numQuestions");
+                        String random = request.getParameter("random");
+
+                        int drillDifficultyInt = 0;
+                        try {
+                            drillDifficultyInt = parseInt(drillDifficulty);
+                        } catch (NumberFormatException ex){
+                            System.out.print(ex);
+                        }
+
+                        int drillNumQuestionsInt = 0;
+                        try {
+                            drillNumQuestionsInt = parseInt(drillNumQuestions);
+                        } catch (NumberFormatException ex){
+                            System.out.print(ex);
+                        }
+
+                        boolean drillIsRandom = false;
+                        if (random.equals("true")) {
+                            drillIsRandom = true;
+                        }
+
+                        Drill drill = new Drill();
+                        drill.setDifficulty(drillDifficultyInt);
+                        drill.setSubject(drillSubject);
+                        drill.setRules(rules);
+                        drill.setNumQuestions(drillNumQuestionsInt);
+                        drill.setIsRandom(drillIsRandom);
+
+                        drills = FlashCardsDB.selectAssessmentsByType("d");
+                        request.setAttribute("drills", drills);
+
+                        url = "/teacher/drills.jsp";
+
+                        break; 
+
+                    case "viewMyClasses":
+                        //var session = request.getSession();
+                        ArrayList <String> classList = (ArrayList<String>) request.getSession().getAttribute("classList");
+
+                        System.out.println("ClassList: " + classList);
+                        if(classList == null){
+                            scc.Teacher t = (scc.Teacher) session.getAttribute("teacher");
+
+                            if(t != null){
+                                classList = data.UserDB.getUserClass(t.getUsername());
+                                request.setAttribute("classList", classList);
+                            }
+                        }
+
+                        System.out.print("DEBUG ClassList=" +classList);
+                        request.setAttribute("classIds", classList);
+                        url = "/teacher/index.jsp";
+                        break;
+
+                    case "viewAssignmentsByClass" :
+                        String classId = request.getParameter("classId");
+
+                        HashMap<Integer, Assessment> assessments = FlashCardsDB.selectAssessmentsByClass(classId);
+
+                        request.setAttribute("assessments", assessments);
+                        request.setAttribute("classId", classId);
+
+                        url = "/teacher/assignments.jsp";
+                        break;
+
+                    case "viewAssignmentResults":
+                        String selectedClassId = request.getParameter("classId");
+                        int assessmentId = Integer.parseInt(request.getParameter("assessmentId"));
+
+                        HashMap<String, StudentAssignment> results = FlashCardsDB.selectAssessmentResults(selectedClassId, assessmentId);
+
+                        request.setAttribute("results", results);
+                        request.setAttribute("assessmentId", assessmentId);
+
+                        url = "/teacher/assignmentDetails.jsp";
+                        break;
+                       
                     }
-                    
-                   
-                    
-                    
-                }else{
-                    System.out.println("for dev -> error -> action addNewFlashcard");
-                    //show errors incase validation fails
-                    request.setAttribute("messageAdd", message);
-                }
-                
-                     // start ------- Load the flashcards into a HashMap
-               try{
-                  if (qaHashMap.isEmpty()){
-                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
 
-                         request.setAttribute("qaHashMap", qaHashMap);
-                  }
-
-               }catch(Exception ex){
-                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
-               }
-               // end ---------------------------------------------
-               
-                 url = "/teacher/addOrDeleteQA.jsp"; //bugged url
-                 
-                 break;
-            case "loadFlashCards" :
-                        // start ------- Load the flashcards into a HashMap
-               try{
-                  if (qaHashMap.isEmpty()){
-                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
-
-                         request.setAttribute("qaHashMap", qaHashMap);
-                  }
-
-               }catch(Exception ex){
-                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
-               }
-               // end ---------------------------------------------
-               
-                url = "/teacher/addOrDeleteQA.jsp";
-                break;
-            case "deleteQA" : 
-                System.out.println("entering flashcard delete logic");
-                String flashCardToDelete = request.getParameter("selectedQuestionToDelete");
-                
-                System.out.println("qa id selected = " + flashCardToDelete);
-                
-                try{
-                   int flashcardID = Integer.parseInt(flashCardToDelete);
-                   
-                   if( FlashCardsDB.deleteQA(flashcardID)){
-                       message.clear();
-                       message.add("Selected flashcard deleted");
-                       System.out.println("Flashcard id: " + flashCardToDelete + " was deleted.");
-                   }
-                }catch (Exception ex){
-                    message.clear();
-                    message.add("You must select a flashcard to delete it, no flashcard was deleted.");
-                    System.out.println("deleteQA -> error");
                 }
-                request.setAttribute("messageDelete", message);
-                
-                url="/teacher/addOrDeleteQA.jsp";
-                
-                      // start ------- Load the flashcards into a HashMap
-               try{
-                  if (qaHashMap.isEmpty()){
-                        FlashCardsDB.loadAllQA(qaHashMap); //loads all QuestionAndAnswer objects into the hashmap 'qa'
-
-                         request.setAttribute("qaHashMap", qaHashMap);
-                  }
-
-               }catch(Exception ex){
-                   System.out.println("/n/n Error loading  hashmap 'qa' in teacher controller -> errer:  " + ex);
-               }
-               // end ---------------------------------------------
-                
-                //TODO -> add delete method call here
-                break;
-            case "loadDrills" :
-                HashMap<Integer, Assessment> drills = FlashCardsDB.selectAssessmentsByType("d");
-                request.setAttribute("drills", drills);
-                url = "/teacher/drills.jsp";
-                break;
-            case "createDrill" :
-                System.out.println("Creating new drill");
-                String drillSubject = request.getParameter("subject");
-                String drillDifficulty = request.getParameter("difficulty");
-                String rules = request.getParameter("rules");
-                String drillNumQuestions =  request.getParameter("numQuestions");
-                String random = request.getParameter("random");
-                
-                int drillDifficultyInt = 0;
-                try {
-                    drillDifficultyInt = parseInt(drillDifficulty);
-                } catch (NumberFormatException ex){
-                    System.out.print(ex);
-                }
-                
-                int drillNumQuestionsInt = 0;
-                try {
-                    drillNumQuestionsInt = parseInt(drillNumQuestions);
-                } catch (NumberFormatException ex){
-                    System.out.print(ex);
-                }
-                
-                boolean drillIsRandom = false;
-                if (random.equals("true")) {
-                    drillIsRandom = true;
-                }
-                
-                Drill drill = new Drill();
-                drill.setDifficulty(drillDifficultyInt);
-                drill.setSubject(drillSubject);
-                drill.setRules(rules);
-                drill.setNumQuestions(drillNumQuestionsInt);
-                drill.setIsRandom(drillIsRandom);
-                
-                drills = FlashCardsDB.selectAssessmentsByType("d");
-                request.setAttribute("drills", drills);
-                
-                url = "/teacher/drills.jsp";
-                
-                break; 
-                
-            case "viewMyClasses":
-                var session = request.getSession();
-                ArrayList <String> classList = (ArrayList<String>) request.getSession().getAttribute("classList");
-                
-                System.out.println("ClassList: " + classList);
-                if(classList == null){
-                    scc.Teacher t = (scc.Teacher) session.getAttribute("teacher");
-                    
-                    if(t != null){
-                        classList = data.UserDB.getUserClass(t.getUsername());
-                        request.setAttribute("classList", classList);
-                    }
-                }
-                
-                System.out.print("DEBUG ClassList=" +classList);
-                request.setAttribute("classIds", classList);
-                url = "/teacher/index.jsp";
-                break;
-                
-            case "viewAssignmentsByClass" :
-                String classId = request.getParameter("classId");
-                
-                HashMap<Integer, Assessment> assessments = FlashCardsDB.selectAssessmentsByClass(classId);
-                
-                request.setAttribute("assessments", assessments);
-                request.setAttribute("classId", classId);
-                
-                url = "/teacher/assignments.jsp";
-                break;
-                
-            case "viewAssignmentResults":
-                String selectedClassId = request.getParameter("classId");
-                int assessmentId = Integer.parseInt(request.getParameter("assessmentId"));
-                
-                HashMap<String, StudentAssignment> results = FlashCardsDB.selectAssessmentResults(selectedClassId, assessmentId);
-                
-                request.setAttribute("results", results);
-                request.setAttribute("assessmentId", assessmentId);
-                
-                url = "/teacher/assignmentDetails.jsp";
-                break;
+            }else {
+                url = "/restrictedResource.jsp";
             }
-        
+        }else{
+            url = "/restrictedResource.jsp";
         }
-        
         
             getServletContext()
                    .getRequestDispatcher(url)

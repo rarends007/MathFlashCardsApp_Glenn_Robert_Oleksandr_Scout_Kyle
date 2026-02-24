@@ -172,6 +172,11 @@ public class AdminController extends HttpServlet {
                    request.setAttribute("message", message);
                }
                break;
+               
+           case "home": //not in use
+               url = "/restrictedResource.jsp";
+               break;
+               
 
             }//outer switch
         
