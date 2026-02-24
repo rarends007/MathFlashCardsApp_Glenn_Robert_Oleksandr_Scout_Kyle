@@ -45,8 +45,7 @@
                         <c:forEach var="classId" items="${classIds}">
                             <div>
                                 ${classId}
-                                <a href="${pageContext.request.contextPath}/Teacher?action=viewAssignmentsByClass&classId=${classId}"/>
-                                   View Assignments
+                                <a href="${pageContext.request.contextPath}/Teacher?action=viewAssignmentsByClass&classId=${classId}" class="fake_link"> View Assignments</a>
                         </div>
                     </c:forEach>
                 </div>

@@ -33,6 +33,21 @@ a {
     color: unset;
 }
 
+table {
+    border-collapse: collapse;
+}
+
+th{
+    background-color: var(--dark);
+    color: #fff;
+    padding: 5px 10px;
+}
+
+td{
+    padding: 5px 10px;
+    border: 1px solid var(--dark);
+}
+
 h1,
 h2,
 h3,

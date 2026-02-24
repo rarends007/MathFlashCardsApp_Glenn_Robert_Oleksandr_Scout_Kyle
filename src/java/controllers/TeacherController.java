@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import scc.Drill;
 import scc.QuestionAndAnswer;
+import scc.StudentAssignment;
 import util.Validation;
 
 
@@ -244,7 +245,7 @@ public class TeacherController extends HttpServlet {
                 String selectedClassId = request.getParameter("classId");
                 int assessmentId = Integer.parseInt(request.getParameter("assessmentId"));
                 
-                HashMap<String, String> results = FlashCardsDB.selectAssessmentResults(selectedClassId, assessmentId);
+                HashMap<String, StudentAssignment> results = FlashCardsDB.selectAssessmentResults(selectedClassId, assessmentId);
                 
                 request.setAttribute("results", results);
                 request.setAttribute("assessmentId", assessmentId);

@@ -6,9 +6,14 @@ package data;
 
 import BaseClasses.Assessment;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.HashMap;
 import scc.Drill;
 import scc.QuestionAndAnswer;
+import scc.StudentAssignment;
 
 /**
  *
@@ -233,21 +238,21 @@ public class FlashCardsDB {
 
     }
 
-    public static HashMap<String, String> selectAssessmentResults(String classId, int assessmentId) {
+    public static HashMap<String, StudentAssignment> selectAssessmentResults(String classId, int assessmentId) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        HashMap<String, String> results = new HashMap<>();
-
+        HashMap<String, StudentAssignment> results = new HashMap<>();        
+        
         String sql
                 = """
-                SELECT u.username, sa.grade
+                SELECT u.username, sa.grade, sa.time_taken, sa.date
                 FROM user AS u
                     JOIN user_class AS uc
                         ON uc.username = u.username
-                    LEFT JOIN student_assessment AS sa
+                    JOIN student_assessment AS sa
                         ON sa.student_username = u.username
                         AND sa.assessment_id = ?
                 WHERE uc.class_id = ?
@@ -261,9 +266,15 @@ public class FlashCardsDB {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                String username = rs.getString("username");        
+                Double grade = rs.getDouble("grade");
+                int time_taken = rs.getInt("time_taken");
+                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                
+                StudentAssignment sa = new StudentAssignment(username,assessmentId, grade,time_taken,date);
                 results.put(
-                        rs.getString("username"),
-                        rs.getString("grade")
+                        username,
+                        sa                        
                 );
             }
         } catch (SQLException ex) {
