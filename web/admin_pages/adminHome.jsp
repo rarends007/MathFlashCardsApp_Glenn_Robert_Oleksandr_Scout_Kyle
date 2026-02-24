@@ -17,6 +17,9 @@
                     <li>
                         <a href="http://localhost:8080/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/admin_pages/deleteUser.jsp">Remove Account</a>
                     </li>
+                     <li>
+                        <a href="${pageContext.request.contextPath}/Public?action=logout">Logout Admin</a>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -115,15 +115,21 @@ public class PublicController extends HttpServlet {
                         System.out.println("username or password not exist");
                     }
 
-
-
                 }catch(NoSuchAlgorithmException ex){
                     System.out.println("No such algorithm exception ->  with login.");
                     message.clear();
                     message.add("Error with hashing algorithm. No such algorithm.");
                 }
-
             }
+            
+            if(action.equalsIgnoreCase("logout")){
+                  try{
+                       session.invalidate();
+                     url = "/index.jsp";
+                  }catch (Exception ex){
+                      System.out.println("No user is logged in.");
+                  }
+               }
 
              getServletContext()
                    .getRequestDispatcher(url)

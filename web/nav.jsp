@@ -15,6 +15,7 @@
                     <li><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">For Teachers</a></li>
                     <li><a href="${pageContext.request.contextPath}/student/index.jsp">For Students</a></li>
                     <li><a href="${pageContext.request.contextPath}/parent/index.jsp">For Parents</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Public?action=logout">Logout</a></li>
                 </ul>
                 <div class="sing_in_container">
                     <c:choose>
