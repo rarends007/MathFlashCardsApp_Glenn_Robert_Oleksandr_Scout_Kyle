@@ -237,6 +237,56 @@ public class FlashCardsDB {
         return assessments;
 
     }
+    public static HashMap<Integer, StudentAssignment> selectStudentAssessments(String username) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        HashMap<Integer, StudentAssignment> assessments = new HashMap<>();
+
+        String sql
+                = """
+                    SELECT *
+                    FROM  student_assessment 
+                    WHERE student_username = ?;
+                """;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("assessment_id");
+                double grade = rs.getDouble("grade");
+                int timeTaken = rs.getInt("time_taken");
+                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                int difficulty = rs.getInt("difficulty");
+                
+
+
+                StudentAssignment assessment = new StudentAssignment();
+                assessment.setAssignmentId(id);
+                assessment.setGrade(grade);
+                assessment.setTimeTaken(timeTaken);
+                assessment.setDate(date);
+                assessment.setDifficulty(difficulty);
+                
+
+
+                assessments.put(assessment.getAssignmentId(), assessment);
+
+            }
+        } catch (SQLException ex) {
+            System.out.println("\nissue in .selectStudentAssessments() \n" + ex + "\n\n");
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+        return assessments;
+
+    }
 
     public static HashMap<String, StudentAssignment> selectAssessmentResults(String classId, int assessmentId) {
         ConnectionPool pool = ConnectionPool.getInstance();

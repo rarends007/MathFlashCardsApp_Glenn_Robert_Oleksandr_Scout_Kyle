@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Student Dashboard</title>
         <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
@@ -28,25 +28,23 @@
                 <aside>
                     <nav class="sidenav">
                         <ul>
-                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/student/index.jsp">Class Overview</a></li>
-                            <li><a href="">Tests</a></li>
-                            <li><a href="">Drills</a></li>
-                            <li><a href="">Statistics</a></li>
-                            <li><a href="">Students</a></li>
+                            <li class="current" ><a href="${pageContext.request.contextPath}/student/index.jsp">Overview</a></li>
+                            <li ><a href="${pageContext.request.contextPath}/Student?action=loadDrills">Drills</a></li>
                         </ul>
                     </nav>
                 </aside>
                 <section>
                     <h2>Class Overview</h2>
-                    <p>This dashboard provides a real-time summary of your students’ academic performance.
+                    <p>This dashboard provides a real-time summary of your academic performance.
                         Review progress, identify weak skill areas, and monitor readiness for progressive or placement
                         testing.</p>
 
                     <div>
-                        <h2>Class Summary</h2>
-                        <p>📅 Current Term: Spring 2025</p>
-                        <p>🏫 Grade Level: 5th Grade Math</p>
-                        <p>Class Average: 82%</p>
+                        <h2>My Assignments</h2>
+                        <p>Here you can review assignment results along with your scores and time spent on each assessment.</p>
+                        <div>
+                            <button class="btn-primary"><a href="${pageContext.request.contextPath}/Student?action=viewAssignmentResults" > View Assignments</a></button>
+                        </div>
                     </div>
                 </section>
             </main>
