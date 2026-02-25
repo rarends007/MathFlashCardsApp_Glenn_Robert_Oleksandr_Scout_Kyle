@@ -364,4 +364,40 @@ public class FlashCardsDB {
         }
         return assessment;
     }
+    
+        public static int createDrill(Drill drill) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String sql
+                = """
+                     INSERT INTO assessment 
+                     (rules, type, level, allowed_attempts, random_or_specific) 
+                     VALUES 
+                     (?, 'd', ?, ?, ?); 
+                """;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, drill.getRules());
+            ps.setInt(2, drill.getDifficulty());
+            ps.setInt(3, drill.getAttemptsAllowed());
+            if(drill.getIsRandom()){
+                ps.setString(4, "R");
+            }
+            else{
+                ps.setString(4, "S");
+            }
+
+            return ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println("\n\nissue in .createDrill() \n" + ex + "\n\n");
+            return 0;
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+
+    }
 }

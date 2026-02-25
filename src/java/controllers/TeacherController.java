@@ -189,7 +189,7 @@ public class TeacherController extends HttpServlet {
                         String drillSubject = request.getParameter("subject");
                         String drillDifficulty = request.getParameter("difficulty");
                         String rules = request.getParameter("rules");
-                        String drillNumQuestions =  request.getParameter("numQuestions");
+                        String attemptsAllowed =  request.getParameter("attemptsAllowed");
                         String random = request.getParameter("random");
 
                         int drillDifficultyInt = 0;
@@ -199,9 +199,9 @@ public class TeacherController extends HttpServlet {
                             System.out.print(ex);
                         }
 
-                        int drillNumQuestionsInt = 0;
+                        int attemptsAllowedInt = 0;
                         try {
-                            drillNumQuestionsInt = parseInt(drillNumQuestions);
+                            attemptsAllowedInt = parseInt(attemptsAllowed);
                         } catch (NumberFormatException ex){
                             System.out.print(ex);
                         }
@@ -215,8 +215,10 @@ public class TeacherController extends HttpServlet {
                         drill.setDifficulty(drillDifficultyInt);
                         drill.setSubject(drillSubject);
                         drill.setRules(rules);
-                        drill.setNumQuestions(drillNumQuestionsInt);
+                        drill.setAttemptsAllowed(attemptsAllowedInt);
                         drill.setIsRandom(drillIsRandom);
+                        
+                        FlashCardsDB.createDrill(drill);
 
                         drills = FlashCardsDB.selectAssessmentsByType("d");
                         request.setAttribute("drills", drills);

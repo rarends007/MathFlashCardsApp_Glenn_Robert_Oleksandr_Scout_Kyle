@@ -29,8 +29,8 @@
                     <nav class="sidenav">
                         <ul>
                             <li class="current"><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">Class Overview</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadDrills">Drills</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Questions Manager</a></li>
+                            <li><a href="${pageContext.request.contextPath}/Teacher?action=loadDrills">Drills</a></li>
+                            <li><a href="${pageContext.request.contextPath}/Teacher?action=loadFlashCards">Questions Manager</a></li>
                         </ul>
                     </nav>
                 </aside>

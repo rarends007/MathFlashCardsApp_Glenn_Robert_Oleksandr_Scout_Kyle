@@ -29,9 +29,9 @@
                 <aside>
                     <nav class="sidenav">
                         <ul>
-                            <li><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">Class Overview</a></li>
-                            <li class="current"><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadDrills">Drills</a></li>
-                            <li><a href="/MathFlashCardsApp_Glenn_Robert_Oleksandr_Scout_Kyle/Teacher?action=loadFlashCards">Questions Manager</a></li>
+                            <li ><a href="${pageContext.request.contextPath}/Teacher?action=viewMyClasses">Class Overview</a></li>
+                            <li class="current"><a href="${pageContext.request.contextPath}/Teacher?action=loadDrills">Drills</a></li>
+                            <li><a href="${pageContext.request.contextPath}/Teacher?action=loadFlashCards">Questions Manager</a></li>
                         </ul>
                     </nav>
                 </aside>
@@ -42,33 +42,7 @@
                     <div>
                         <h2>Drills List</h2>
                         <br>
-                        <button class="btn-primary" id="drill_create_btn">Create</button>
-                        <form class="drill_create_container modular_menu">
-                            <h2>Create a drill</h2>
-                            <input type="text" placeholder="Title">
-                            <select>
-                                <option value="">--Please choose difficulty--</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
-                            <input type="number" placeholder="Number of Questions">
-                            <!--Questions List will be here-->
-                            <ul class="question_container">
-                                <li>
-                                    <input type="checkbox" value="id">
-                                    <label>Question</label>
-                                </li>
-                            </ul>
-                            <!------------------------------->
-                            <div class="btn_container">
-                                <input class="btn-primary" type="submit" value="Create">
-                                <input class="btn-secondary" type="button" value="Close" id="drill_create_close_btn">
-                            </div>
-                        </form>
-                        <form action="<c:url value="/Teacher"/>" method="post" id="loadFlashCardsForm"> 
-                            <input type="hidden" name="action" value="loadDrills">
-                        </form>
+                        <button class="btn-primary" id="drill_create_btn"><a href="${pageContext.request.contextPath}/teacher/createDrill.jsp"">Create</a></button>
                         <ul class="drill_list">
                             <c:forEach var="d" items="${drills}">
                                 <li class="drill_container" id='${d.key}_drill'>

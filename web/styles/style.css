@@ -397,14 +397,14 @@ nav a:hover {
     margin: 20px 0;
 }
 
-.drill_create_container.modular_menu {
-    display: none;
+.drill_create_container{
+    display: flex;
+    flex-direction: column;
     width: 400px;
-    left: 40dvw;
 }
 
-.drill_create_container.modular_menu h2:after{
-    display: none;
+.drill_create_container input, .drill_create_container textarea, .drill_create_container select{
+    margin-bottom: 20px;
 }
 
 .question_container{
