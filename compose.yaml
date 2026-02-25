@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.1   # use MySQL 8 explicitly
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: capstone
+      MYSQL_USER: capstone_2026          # optional: safer than using root
+      MYSQL_PASSWORD: Password_Capstone_1475   # optional password
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db-volume:/var/lib/mysql
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: capstone_2026       # optional: login user
+      PMA_PASSWORD: Password_Capstone_1475
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  my-db-volume:
