@@ -459,3 +459,18 @@ nav a:hover {
     display: flex;
     flex-direction: column;
 }
+
+.restricted_page{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restricted_page body{
+    max-width: 70%;
+}
+
+.restricted_page h1{
+    margin-bottom: 30px;
+}
